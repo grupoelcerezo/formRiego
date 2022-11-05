@@ -310,3 +310,15 @@ console.log(iduser2)
          
    let dia_efecto = ((new Date).toISOString()).slice(0,10)  
    document.getElementById("txtfecha").value = dia_efecto
+
+   if (!sessionStorage.getItem('emailActivo')) {
+    window.location.href = "login.html";
+   }else{
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Bienvenido a inicio',
+      showConfirmButton: false,
+      timer: 2000
+    })
+   }

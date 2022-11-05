@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="estilos/login.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Login</title>
+</head>
+<body>
+    <div id="login-button">
+        <img src="https://dqcgrsy5v35b9.cloudfront.net/cruiseplanner/assets/img/icons/login-w-icon.png">
+        </img>
+      </div>
+      <div id="container">
+        <h1>Log In</h1>
+        <span class="close-btn">
+          <img src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_close_delete_-128.png"></img>
+        </span>
+      
+        <form>
+          <input type="email" name="email" placeholder="E-mail" id="txtemail">
+          <input type="password" name="pass" placeholder="Password" id="txtpassword">
+          <div id="remember-container">
+          </div>
+      </form>
+      <button id="btnIngesar">Entrar</button>
+      </div>
+      
+      <!-- Forgotten Password Container -->
+      <div id="forgotten-container">
+         <h1>Forgotten</h1>
+        <span class="close-btn">
+          <img src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_close_delete_-128.png"></img>
+        </span>
+      
+        <form>
+          <input type="email" name="email" placeholder="E-mail">
+          <a href="#" class="orange-btn">Get new password</a>
+      </form>
+      </div>
+      <script src="js/login.js"></script>
+</body>
+</html>
