@@ -2,18 +2,9 @@
 
 let iduser = 0;
 var editar = false;
+let tabla_suelo = false;
 
-
-
-obtener()
-   
-
-function obtener(){
-
-  let dia_efecto = ((new Date).toISOString()).slice(0,10)  
-   document.getElementById("txtfecha").value = dia_efecto
-
-  let dia = parseInt( ((new Date).toISOString()).slice(8,10) );
+let dia = parseInt( ((new Date).toISOString()).slice(8,10) );
 if(dia != 0){
 
   if (dia <=9) {
@@ -26,44 +17,68 @@ if(dia != 0){
    // console.log(ayer)
     document.getElementById("fecha_suelo").value = ayer;
   }
-
+obtener()
    
 }
+   
+
+function obtener(){
+
+  let dia_efecto = ((new Date).toISOString()).slice(0,10)  
+   document.getElementById("txtfecha").value = dia_efecto
 
         var fecha = document.getElementById("fecha_suelo").value;
    
     $(".table tbody").html(""); //limpia la tabla
     
-   
-fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelosfecha/'+fecha+'')
+   if (tabla_suelo == false) {
+    fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelosfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
      
         //console.log(i, resp[i].humedad)
-        $("#tbodysuelo").append('<tr class="table-active"><td class="table-active">'+
-        element.id_rsuelo+'</td><td style="text-align:center;" class="table-active">'+
-        (element.fecha)+'</td><td style="text-align:center;" class="table-active">'+
-        element.cultivo_revisado+'</td><td style="text-align:center;" class="table-active">'+
-        element.rancho_revisado+'</td><td style="text-align:center;" style="text-align:center;" class="table-active">'+
-        element.metodo_aplicacion+'</td><td style="text-align:center;"class="table-active">'+
-        element.status_producto+'</td><td style="text-align:center;" class="table-active">'+
-        element.humedad+'</td><td style="text-align:center;" class="table-active">'+
-        element.presion_riego_valvula+'</td><td style="text-align:center;" class="table-active">'+
-        element.presion_riego_cintilla_manguera+'</td><td style="text-align:center;" class="table-active">'+
-        element.ph_gotero+'</td><td style="text-align:center;" class="table-active">'+
-        element.ph_bomba+'</td><td style="text-align:center;" class="table-active">'+
-        element.ph_tierra+'</td><td style="text-align:center;" sclass="table-active">'+
-        element.ce_gotero+'</td><td style="text-align:center;" sclass="table-active">'+
-        element.ce_bomba+'</td><td style="text-align:center;" class="table-active">'+
-        element.ce_tierra+'</td><td style="text-align:center;" class="table-active">'+
-        element.evapotranspiracion+'</td><td style="text-align:center;" class="table-active">'+
-        element.comentario_general+'</td><td style="text-align:center;" class="table-active">'+
-        element.fecha_actualizacion+'</td><td style="text-align:center;" class="table-active">'+
-        element.usuario+'</td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>')
+        $("#tbodysuelo-rep").append('<tr class="table-active"><td class="table-active"><b id="strong-td">'+
+        element.id_rsuelo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.rancho_revisado+'</b></td><td style="text-align:center;" style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.metodo_aplicacion+'</b></td><td style="text-align:center;"class="table-active"><b id="strong-td">'+
+        element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ph_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ph_tierra+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
+        element.ce_gotero+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
+        element.ce_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ce_tierra+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>')
        
     });
 })
+   }else{
+    fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelosfecha/'+fecha+'')
+.then(resp => resp.json())
+.then(resp => {
+    resp.forEach(element => {
+     
+        //console.log(i, resp[i].humedad)
+        $("#tbodysuelo-reg").append('<tr class="table-active"></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>')
+       
+    });
+})
+   }
+
 
 
 }
@@ -265,60 +280,23 @@ console.log(iduser2)
     document.getElementById("detalle_estacion").style.display = "none";
     document.getElementById("img-fondo").style.display = "none";
     document.getElementById("btn-inicio").style.display = "inline";
-    
+    document.getElementById('suelo-rep').style.display = "none";
+    tabla_suelo = true;
+    obtener()
    })
 
    document.getElementById("menu-suelos-reportes").addEventListener('click', () => {
     document.getElementById("fecha-consulta-suelo").style.display = "inline";
     document.getElementById("btn-inicio").style.display = "inline";
     document.getElementById("img-fondo").style.display = "none";
-    document.getElementById('btn-suelo').style.display = "none"
-    document.getElementById('detalle_suelo').style.display = "inline"
-    document.getElementById('title-suelo').innerHTML = "Reportes de suelos"
+    document.getElementById('btn-suelo').style.display = "none";
+    document.getElementById('detalle_suelo').style.display = "inline";
+    document.getElementById('title-suelo').innerHTML = "Reportes de suelos por fecha";
+    document.getElementById('suelo-reg').style.display = "none";
+    tabla_suelo = false;
+    obtener()
    })
    
-
-   document.getElementById("menu-ciclos").addEventListener('click', () => {
-    document.getElementById("detalle_ciclo").style.display = "inline";
-    document.getElementById("detalle_suelo").style.display = "none";
-    document.getElementById("detalle_estacion").style.display = "none";
-    document.getElementById("img-fondo").style.display = "none";
-    document.getElementById("btn-inicio").style.display = "inline";
-    document.getElementById('consulta_fecha').style.display = 'none'
-   })
-
-   document.getElementById("menu-ciclos-reportes").addEventListener('click', () => {
-    document.getElementById("detalle_ciclo").style.display = "inline";
-    document.getElementById("detalle_suelo").style.display = "none";
-    document.getElementById("detalle_estacion").style.display = "none";
-    document.getElementById("img-fondo").style.display = "none";
-    document.getElementById('title-ciclo').innerHTML = "Reportes de ciclos"
-
-    document.getElementById("btn-ciclo").style.display = "none";
-
-    document.getElementById("btn-inicio").style.display = "inline";
-   })
-
-   document.getElementById("menu-estaciones").addEventListener('click', () => {
-    document.getElementById("detalle_estacion").style.display = "inline";
-    document.getElementById("detalle_suelo").style.display = "none"
-    document.getElementById("detalle_ciclo").style.display = "none";
-    document.getElementById("img-fondo").style.display = "none";
-    document.getElementById("btn-inicio").style.display = "inline";
-    document.getElementById('consulta_estacion').style.display = "none"
-   })
-
-   document.getElementById("menu-estaciones-reportes").addEventListener('click', () => {
-    document.getElementById("detalle_estacion").style.display = "inline";
-    document.getElementById("detalle_suelo").style.display = "none"
-    document.getElementById("detalle_ciclo").style.display = "none";
-    document.getElementById("img-fondo").style.display = "none";
-    document.getElementById('title-estacion').innerHTML = "Reportes de estaciones"
-  
-    document.getElementById("btn-estacion").style.display = "none";
-
-    document.getElementById("btn-inicio").style.display = "inline";
-   })
 
    document.getElementById("btn-inicio").addEventListener( 'click', () =>{
     window.location.href = 'index.html';

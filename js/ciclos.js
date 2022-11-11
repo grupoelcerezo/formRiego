@@ -1,5 +1,6 @@
 let iduser2 = 0;
 var editar = false;
+let tabla_ciclo = false;
 
 let dia_ciclo = parseInt( ((new Date).toISOString()).slice(8,10) );
 if (dia_ciclo != 0) {
@@ -21,44 +22,65 @@ obtenerciclo();
 
 function obtenerciclo(){
 
+  console.log(tabla_ciclo)
+
   let dia_efecto_ciclo = ((new Date).toISOString()).slice(0,10)  
     
     document.getElementById("txtfechaciclo").value = dia_efecto_ciclo
     $(".table tbody").html(""); //limpia la tabla
     var fecha = document.getElementById("fecha_ciclo").value;
 
-
-fetch('https://apirest.gec.org.mx/api//riegos/getFormCiclosfecha/'+fecha+'')
+if (tabla_ciclo == false) {
+  fetch('https://apirest.gec.org.mx/api//riegos/getFormCiclosfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
      
         //console.log(i, resp[i].humedad)
-        $("#tbodyciclo").append('<tr><td style="text-align:center;" class="table-active">'+
-        element.id_rciclo+'</td><td style="text-align:center;" class="table-active">'+
-        (element.fecha).slice(0,10)+'</td><td style="text-align:center;" class="table-active">'+
-        element.cultivo_revisado+'</td><td style="text-align:center;" class="table-active">'+
-        element.rancho_revisado+'</td><td style="text-align:center;" class="table-active">'+
-        element.n_ciclo+'</td><td style="text-align:center;" class="table-active">'+
-        element.tiempo_ciclo+'</td><td style="text-align:center;" class="table-active">'+
-        element.n_base+'</td><td style="text-align:center;" class="table-active">'+
-        element.status_producto+'</td><td style="text-align:center;" class="table-active">'+
-        element.presion_riego_valvula+'</td><td style="text-align:center;" class="table-active">'+
-        element.presion_riego_cintilla_manguera+'</td><td style="text-align:center;" class="table-active">'+
-        element.ph_gotero+'</td><td style="text-align:center;" class="table-active">'+
-        element.ce_gotero+'</td><td style="text-align:center;" class="table-active">'+
-        element.mililitros_captacion+'</td><td style="text-align:center;" class="table-active">'+
-        element.ph_dren+'</td><td style="text-align:center;" class="table-active">'+
-        element.ce_dren+'</td><td style="text-align:center;" class="table-active">'+
-        element.mililitros_dren+'</td><td style="text-align:center;" class="table-active">'+
-        element.porcentaje_humedad+'</td><td style="text-align:center;" class="table-active">'+
-        element.evapotranspiracion+'</td><td style="text-align:center;" class="table-active">'+
-        element.comentario_general+'</td><td style="text-align:center;" class="table-active">'+
-        element.fecha_actalizacion+'</td><td style="text-align:center;" class="table-active">'+
-        element.usuario+'</td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
+        $("#tbodyciclo-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.id_rciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.tiempo_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.n_base+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ce_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.porcentaje_humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actalizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
     
     });
 })
+}else{
+  fetch('https://apirest.gec.org.mx/api//riegos/getFormCiclosfecha/'+fecha+'')
+.then(resp => resp.json())
+.then(resp => {
+    resp.forEach(element => {
+     
+        //console.log(i, resp[i].humedad)
+        $("#tbodyciclo-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actalizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
+    
+    });
+})
+}
+
 }
 
 $(document).on('click', '.editar', function () {
@@ -262,6 +284,32 @@ var cultivo = "";
 
     })
 
+    document.getElementById("menu-ciclos").addEventListener('click', () => {
+      document.getElementById("detalle_ciclo").style.display = "inline";
+      document.getElementById("detalle_suelo").style.display = "none";
+      document.getElementById("detalle_estacion").style.display = "none";
+      document.getElementById("img-fondo").style.display = "none";
+      document.getElementById("btn-inicio").style.display = "inline";
+      document.getElementById('consulta_fecha').style.display = 'none'
+      document.getElementById('ciclo-rep').style.display = "none";
+      tabla_ciclo = true;
+      obtenerciclo()
+     })
+  
+     document.getElementById("menu-ciclos-reportes").addEventListener('click', () => {
+      document.getElementById("btn-inicio").style.display = "inline";
+      document.getElementById("detalle_ciclo").style.display = "inline";
+      document.getElementById("detalle_suelo").style.display = "none";
+      document.getElementById("detalle_estacion").style.display = "none";
+      document.getElementById("img-fondo").style.display = "none";
+      document.getElementById('title-ciclo').innerHTML = "Reportes de ciclos por fecha"
+  
+      document.getElementById("btn-ciclo").style.display = "none";
+
+      document.getElementById('ciclo-reg').style.display = "none";
+      tabla_suelo = false;
+      obtenerciclo()
+     })
 
     let dia_efecto_ciclo = ((new Date).toISOString()).slice(0,10)  
     

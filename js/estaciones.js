@@ -1,5 +1,7 @@
 let iduser3 = 0;
 var editar = false;
+let tabla_estacion = false;
+
 let dia_estacion = parseInt( ((new Date).toISOString()).slice(8,10) );
 if(dia_estacion != 0){
 
@@ -26,32 +28,50 @@ function obtenerestacion(){
     $(".table tbody").html(""); //limpia la tabla
     var fecha = document.getElementById("fecha_estacion").value;
 
-    let i=0;
-fetch('https://apirest.gec.org.mx/api//riegos/getFormEstacionesfecha/'+fecha+'')
+ if (tabla_estacion == false) {
+  fetch('https://apirest.gec.org.mx/api//riegos/getFormEstacionesfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
      
-        console.log(i, element.humedad)
-        $("#tbodyestaciones").append('<tr><td style="text-align:center;" class="table-active">'+
-        element.id_rhidro+'</td><td style="text-align:center;" class="table-active">'+
-        (element.fecha).slice(0,10)+'</td><td style="text-align:center;" class="table-active">'+
-        element.cultivo_revisado+'</td><td style="text-align:center;" class="table-active">'+
-        element.rancho_revisado+'</td><td style="text-align:center;" class="table-active">'+
-        element.n_estacion+'</td><td style="text-align:center;" class="table-active">'+
-        element.mililitros_captacion+'</td><td style="text-align:center;" class="table-active">'+
-        element.ph_entrada+'</td><td style="text-align:center;" class="table-active">'+
-        element.ce_entrada+'</td><td style="text-align:center;" class="table-active">'+
-        element.mililitros_dren+'</td><td style="text-align:center;" class="table-active">'+
-        element.ph_dren+'</td><td style="text-align:center;" class="table-active">'+
-        element.ce_dren+'</td><td style="text-align:center;" class="table-active">'+
-        element.variedad+'</td><td style="text-align:center;" class="table-active">'+
-        element.comentario_general+'</td><td style="text-align:center;" class="table-active">'+
-        element.fecha_actualizacion+'</td><td style="text-align:center;" class="table-active">'+
-        element.usuario+'</td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
-        i=i+1;
+   
+        $("#tbodyestaciones-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.n_estacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ph_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ce_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+      
     });
 })
+ }else{
+  fetch('https://apirest.gec.org.mx/api//riegos/getFormEstacionesfecha/'+fecha+'')
+.then(resp => resp.json())
+.then(resp => {
+    resp.forEach(element => {
+     
+   
+        $("#tbodyestaciones-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+      
+    });
+})
+ }
+
     
 }
 
@@ -246,6 +266,35 @@ var cultivo = "";
     });
 
     })
+
+    document.getElementById("menu-estaciones").addEventListener('click', () => {
+      document.getElementById("detalle_estacion").style.display = "inline";
+      document.getElementById("detalle_suelo").style.display = "none"
+      document.getElementById("detalle_ciclo").style.display = "none";
+      document.getElementById("img-fondo").style.display = "none";
+      document.getElementById("btn-inicio").style.display = "inline";
+      document.getElementById('consulta_estacion').style.display = "none"
+      document.getElementById('estacion-reg').style.display = "none";
+      tabla_estacion = true;
+      obtenerestacion()
+     })
+  
+     document.getElementById("menu-estaciones-reportes").addEventListener('click', () => {
+      document.getElementById("detalle_estacion").style.display = "inline";
+      document.getElementById("detalle_suelo").style.display = "none"
+      document.getElementById("detalle_ciclo").style.display = "none";
+      document.getElementById("img-fondo").style.display = "none";
+      document.getElementById('title-estacion').innerHTML = "Reportes de estaciones por fecha"
+    
+      document.getElementById("btn-estacion").style.display = "none";
+  
+      document.getElementById("btn-inicio").style.display = "inline";
+
+      document.getElementById('estacion-rep').style.display = "none";
+      tabla_estacion = false;
+      obtenerestacion()
+     })
+  
 
     let dia_efecto_estacion = ((new Date).toISOString()).slice(0,10)  
     document.getElementById("txtfechaestacion").value = dia_efecto_estacion

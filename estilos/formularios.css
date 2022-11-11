@@ -322,14 +322,25 @@ i{
 }
 
 .btns-home{
-  display: flex;
+  display: block;
 }
 
 #btn-suelo, #btn-ciclo, #btn-estacion{
   width: 80%;
-  height: 60px;
+  height: 80px;
 }
 
 #fecha-consulta-suelo{
   display: none;
+}
+
+#home-strong{
+  font-size: 25px;
+}
+
+#strong-td{
+  color: black;
+}
+h5{
+  text-align: center;
 }
