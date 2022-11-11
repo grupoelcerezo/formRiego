@@ -1,6 +1,6 @@
 let iduser3 = 0;
 var editar = false;
-let dia_estacion = parseInt( ((new Date).toISOString()).slice(8,10) )-1;
+let dia_estacion = parseInt( ((new Date).toISOString()).slice(8,10) );
 if(dia_estacion != 0){
 
   if (dia_estacion <=9) {
@@ -13,12 +13,15 @@ if(dia_estacion != 0){
    
     document.getElementById("fecha_estacion").value = ayer_estacion;
   }
-
+  obtenerestacion()
 }
  
 
 
 function obtenerestacion(){
+
+  let dia_efecto_estacion = ((new Date).toISOString()).slice(0,10)  
+    document.getElementById("txtfechaestacion").value = dia_efecto_estacion
 
     $(".table tbody").html(""); //limpia la tabla
     var fecha = document.getElementById("fecha_estacion").value;
@@ -29,21 +32,23 @@ fetch('https://apirest.gec.org.mx/api//riegos/getFormEstacionesfecha/'+fecha+'')
 .then(resp => {
     resp.forEach(element => {
      
-        //console.log(i, resp[i].humedad)
-        $("#tbodyestaciones").append('<tr><td style="background-color: green; text-align: center; color:white">'+
-        element.id_rhidro+'</td><td style="background-color: green; text-align: center; color:white">'+
-        (element.fecha).slice(0,10)+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.cultivo_revisado+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.rancho_revisado+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.n_estacion+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.mililitros_captacion+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.ph_entrada+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.ce_entrada+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.mililitros_dren+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.ph_dren+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.ce_dren+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.variedad+'</td><td style="background-color: green; text-align: center; color:white">'+
-        element.comentario_general+'</td><td style="background-color: green; text-align: center; color:white"><button class="eliminar btn-danger" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+        console.log(i, element.humedad)
+        $("#tbodyestaciones").append('<tr><td style="text-align:center;" class="table-active">'+
+        element.id_rhidro+'</td><td style="text-align:center;" class="table-active">'+
+        (element.fecha).slice(0,10)+'</td><td style="text-align:center;" class="table-active">'+
+        element.cultivo_revisado+'</td><td style="text-align:center;" class="table-active">'+
+        element.rancho_revisado+'</td><td style="text-align:center;" class="table-active">'+
+        element.n_estacion+'</td><td style="text-align:center;" class="table-active">'+
+        element.mililitros_captacion+'</td><td style="text-align:center;" class="table-active">'+
+        element.ph_entrada+'</td><td style="text-align:center;" class="table-active">'+
+        element.ce_entrada+'</td><td style="text-align:center;" class="table-active">'+
+        element.mililitros_dren+'</td><td style="text-align:center;" class="table-active">'+
+        element.ph_dren+'</td><td style="text-align:center;" class="table-active">'+
+        element.ce_dren+'</td><td style="text-align:center;" class="table-active">'+
+        element.variedad+'</td><td style="text-align:center;" class="table-active">'+
+        element.comentario_general+'</td><td style="text-align:center;" class="table-active">'+
+        element.fecha_actualizacion+'</td><td style="text-align:center;" class="table-active">'+
+        element.usuario+'</td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
         i=i+1;
     });
 })
@@ -72,6 +77,9 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
     document.getElementById("saveestacion").addEventListener('click', () => {
   console.log("hola")
       if (editar == false) {
+
+        document.getElementById("fecha_estacion").value = $("#txtfechaestacion").val();
+
         var data = {
           fecha : $("#txtfechaestacion").val(),
           cultivo_revisado : $("#txtcultivoestacion_revisado").val(),
@@ -85,6 +93,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
           ce_dren : $("#txtceestacion_dren").val(),
           variedad : $("#txtvariedadestacion").val(),
           comentario_general : $("#txtcomentarioestacion").val(),
+          usuario: 'dev.ti@grupoelcerezo.com'
             }
 
             fetch('https://apirest.gec.org.mx/api//riegos/getFormEstaciones', {
@@ -164,7 +173,10 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
 
 $(document).on('click', '.eliminar', function () {
     iduser3 = $(this).data("id");
-console.log(iduser2)
+    fecha = $(this).data("fecha");
+ 
+    document.getElementById("fecha_estacion").value = fecha.slice(0,10);
+
     fetch('https://apirest.gec.org.mx/api//riegos/getFormEstaciones/'+iduser3+'', {
         method: 'DELETE',
     })
@@ -210,7 +222,7 @@ var cultivo = "";
       respObj.forEach(respuesta => {
       
         if (respObj[i].CULTIVO == cultivo && respObj[i].MEDIO == "SUSTRATO") {
-          $("#txtranchoestacion_revisado").append("<option id='prueba2' value="+respObj[i].CODIGO+"_"+respObj[i].DESCRIPCION+">"+respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION+"</option>")
+          $("#txtranchoestacion_revisado").append("<option id='prueba2' value="+respObj[i].CODIGO+">"+respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION+"</option>")
         }
         
         i=i+1;

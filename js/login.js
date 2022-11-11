@@ -25,20 +25,28 @@ $('#login-button').click(function(){
  document.getElementById('btnIngesar').addEventListener('click', () => {
     let email = document.getElementById('txtemail').value;
     let password = document.getElementById('txtpassword').value;
-    if (email == 'dev.ti@grupoelcerezo.com' && password == '123') {
-       sessionStorage.setItem('emailActivo', email)
-       sessionStorage.setItem('rolEmail', 1)
-     console.log(sessionStorage.getItem('emailActivo'), sessionStorage.getItem('rolEmail'))
-     validar()
-    } else{
-        Swal.fire({
-            position: 'top-end',
-            icon: 'error',
-            title: 'Datos no validos',
-            showConfirmButton: false,
-            timer: 3000
-          })
-       }
+
+   fetch("http://localhost:3001/api/login/getusuarioExiste/"+email +"/"+password+"")
+   .then(resp => resp.json())
+   .then(resp => {
+
+    if (resp[0].length>0) {
+      sessionStorage.setItem('emailActivo', email)
+      sessionStorage.setItem('rolEmail', 1)
+    console.log(sessionStorage.getItem('emailActivo'), sessionStorage.getItem('rolEmail'))
+    validar()
+   } else{
+       Swal.fire({
+           position: 'top-end',
+           icon: 'error',
+           title: 'Datos no validos',
+           showConfirmButton: false,
+           timer: 3000
+         })
+      }
+   })
+
+   
 
     
     

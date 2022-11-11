@@ -320,3 +320,16 @@ i{
 #btn-inicio{
   display: none;
 }
+
+.btns-home{
+  display: flex;
+}
+
+#btn-suelo, #btn-ciclo, #btn-estacion{
+  width: 80%;
+  height: 60px;
+}
+
+#fecha-consulta-suelo{
+  display: none;
+}
