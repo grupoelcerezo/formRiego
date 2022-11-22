@@ -344,3 +344,9 @@ i{
 h5{
   text-align: center;
 }
+
+#nombre{
+  margin-top: 5px;
+  margin-left: auto;
+  color: #fff;
+}

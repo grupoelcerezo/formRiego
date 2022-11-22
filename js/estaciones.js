@@ -37,7 +37,7 @@ function obtenerestacion(){
    
         $("#tbodyestaciones-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.n_estacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
@@ -62,7 +62,7 @@ function obtenerestacion(){
      
    
         $("#tbodyestaciones-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
@@ -94,8 +94,8 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
     
 
 
-    document.getElementById("saveestacion").addEventListener('click', () => {
-  console.log("hola")
+    document.getElementById("saveestacion").addEventListener('submit', (event) => {
+  event.preventDefault()
       if (editar == false) {
 
         document.getElementById("fecha_estacion").value = $("#txtfechaestacion").val();
@@ -113,7 +113,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
           ce_dren : $("#txtceestacion_dren").val(),
           variedad : $("#txtvariedadestacion").val(),
           comentario_general : $("#txtcomentarioestacion").val(),
-          usuario: 'dev.ti@grupoelcerezo.com'
+          usuario: sessionStorage.getItem('emailActivo')
             }
 
             fetch('https://apirest.gec.org.mx/api//riegos/getFormEstaciones', {
@@ -127,7 +127,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
             .then( resp => {
                 console.log(resp)
                 if (resp.status != 'ERROR') {
-  document.getElementById("miForm-estacion").reset();
+  document.getElementById("saveestacion").reset();
   Swal.fire({
     position: 'top-end',
     icon: 'success',

@@ -40,7 +40,7 @@ function obtener(){
         //console.log(i, resp[i].humedad)
         $("#tbodysuelo-rep").append('<tr class="table-active"><td class="table-active"><b id="strong-td">'+
         element.id_rsuelo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.metodo_aplicacion+'</b></td><td style="text-align:center;"class="table-active"><b id="strong-td">'+
@@ -69,7 +69,7 @@ function obtener(){
      
         //console.log(i, resp[i].humedad)
         $("#tbodysuelo-reg").append('<tr class="table-active"></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
@@ -102,8 +102,8 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
     
 
 
-    document.getElementById("savesuelo").addEventListener('click', () => {
- 
+    document.getElementById("savesuelo").addEventListener('submit', (event) => {
+     event.preventDefault()
       document.getElementById("fecha_suelo").value = $("#txtfecha").val();
 
       if (editar == false) {
@@ -124,7 +124,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
           ce_tierra : $("#txtce_tierra").val(),
           evapotranspiracion: $("#txtevapotranspiracion").val(),
           comentario_general : $("#txtcomentario").val(),
-          usuario: 'dev.ti@grupoelcerezo.com'
+          usuario: sessionStorage.getItem('emailActivo')
             }
 
             fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelos', {
@@ -138,7 +138,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
             .then( resp => {
                 console.log(resp)
                 if (resp.status != 'ERROR') {
-  document.getElementById("miForm-suelo").reset();
+  document.getElementById("savesuelo").reset();
   Swal.fire({
     position: 'top-end',
     icon: 'success',
@@ -305,14 +305,10 @@ console.log(iduser2)
    let dia_efecto = ((new Date).toISOString()).slice(0,10)  
    document.getElementById("txtfecha").value = dia_efecto
 
-   /*if (!sessionStorage.getItem('emailActivo')) {
+   if (!sessionStorage.getItem('emailActivo')) {
     window.location.href = "login.html";
    }else{
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Bienvenido a inicio',
-      showConfirmButton: false,
-      timer: 2000
-    })
-   }*/
+    console.log(sessionStorage.getItem('emailActivo'))
+   }
+
+   document.getElementById('nombre').innerHTML = sessionStorage.getItem('nombre');

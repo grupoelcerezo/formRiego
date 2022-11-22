@@ -39,7 +39,7 @@ if (tabla_ciclo == false) {
         //console.log(i, resp[i].humedad)
         $("#tbodyciclo-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.id_rciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
@@ -57,7 +57,7 @@ if (tabla_ciclo == false) {
         element.porcentaje_humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.fecha_actalizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
     
     });
@@ -70,11 +70,11 @@ if (tabla_ciclo == false) {
      
         //console.log(i, resp[i].humedad)
         $("#tbodyciclo-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.fecha_actalizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
     
     });
@@ -102,7 +102,8 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormCiclos" + iduser2)
     
 
 
-    document.getElementById("saveciclo").addEventListener('click', () => {
+    document.getElementById("saveciclo").addEventListener('submit', (event) => {
+      event.preventDefault()
       if (editar == false) {
 
         document.getElementById("fecha_ciclo").value = $("#txtfechaciclo").val();
@@ -126,7 +127,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormCiclos" + iduser2)
           porcentaje_humedad : $("#txtporcentajeciclo_humedad").val(),
           evapotranspiracion : $("#txtevapotranspiracionciclo").val(),
           comentario_general : $("#txtcomentariociclo").val(),
-          usuario: 'usuario prueba'
+          usuario: sessionStorage.getItem('emailActivo')
             }
           
             fetch('https://apirest.gec.org.mx/api//riegos/getFormCiclos', {
@@ -140,7 +141,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormCiclos" + iduser2)
             .then( resp => {
                 console.log(resp)
                 if (resp.status != 'ERROR') {
-  document.getElementById("miForm-ciclo").reset();
+  document.getElementById("saveciclo").reset();
   Swal.fire({
     position: 'top-end',
     icon: 'success',
@@ -148,21 +149,8 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormCiclos" + iduser2)
     showConfirmButton: false,
     timer: 1500
   })
-  let dia_ciclo = parseInt( ((new Date).toISOString()).slice(8,10) );
-if (dia_ciclo != 0) {
-
-    if (dia_ciclo <=9) {
-        let dias_ciclo = '0'+dia_ciclo;
-        let ayer_ciclo = ((new Date).toISOString()).slice(0,8)+dias_ciclo
-       
-        document.getElementById("fecha_ciclo").value = ayer_ciclo;
-      }else{
-        let ayer_ciclo = ((new Date).toISOString()).slice(0,8)+dia_ciclo
-       
-        document.getElementById("fecha_ciclo").value = ayer_ciclo;
-      }
 obtenerciclo();
-}
+
   $('#Modal-detalle-ciclos').modal('hide')
                 }else{
                     Swal.fire({

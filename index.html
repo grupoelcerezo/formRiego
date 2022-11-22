@@ -30,7 +30,7 @@
     <img class="img-btn" src="img/ElCerezoOriginal.webp" alt="">
     
 			<h6>Formularios de campo.<span>&#160;</span></h6>
-     
+    <div id="nombre"><p>nombre</p></div>
 </div><br>
 <button id="btn-inicio" type="button" class="btn btn-primary"><b id="home-strong"> <span style='font-size:30px;'>&#9194;</span> Regresar</b></button><br>
 
@@ -344,7 +344,7 @@
           <!-- form ciclo riego inicio -->
      
       <div class="form-inner">
-        <form id="miForm-ciclo">
+        <form id="saveciclo">
 
           <div class="input-wrapper">
             <label for="#estacion">Fecha de revisión:</label>
@@ -543,15 +543,16 @@
           </div>
          
         </div> <textarea id="txtcomentariociclo" name="descripcion"  required></textarea>
+        <div class="btn-group">
+          <input type="submit" class="btn btn-success"  value="Enviar">
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 
       </form>
       </div>
     
-    <div class="btn-group">
-      <button class="btn btn-success" id="saveciclo">Enviar</button>
     
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 
         
       </div>
@@ -584,7 +585,7 @@
           <!-- form suelo inicio -->
    
       <div class="form-inner">
-        <form id="miForm-suelo">
+        <form id="savesuelo">
 
           <div class="input-wrapper">
             <label for="#estacion">Fecha:</label>
@@ -769,20 +770,22 @@
         <div class="input-wrapper">
           <label for="comentario">Comentarios generales:</label>
           <textarea id="txtcomentario" name="descripcion"  required></textarea>
+
+          <div class="btn-group">
+          
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-success" value="Enviar">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+    
+              
+            </div>
+          </div>
           
           
         </div> 
         </div>
       </form>
-      <div class="btn-group">
-          
-        <div class="modal-footer">
-          <button class="btn btn-success" id="savesuelo">Enviar</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-
-          
-        </div>
-      </div>
+      
    
      
       <!-- form suelo fin -->
@@ -817,7 +820,7 @@
           <!-- form estacion inicio -->
      
       <div class="form-inner">
-        <form id="miForm-estacion">
+        <form id="saveestacion">
 
           <div class="form-inner">
             <form id="miForm-estacion">
@@ -956,22 +959,19 @@
           <textarea name="descripcion" id="txtcomentarioestacion" required></textarea>  
         </div>       
 
+        <div class="btn-group">
+          <input type="submit" value="Enviar" class="btn btn-success" >
         
-         
-        
-
-      </form>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            
+                      
+                    </div>
+        </div>
+         </form>
       </div>
    
-    <div class="btn-group">
-      <button class="btn btn-success" id="saveestacion">Enviar</button>
     
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-        
-                  
-                </div>
-    </div>
       <!-- form estacion fin -->
         </div>
       </div>

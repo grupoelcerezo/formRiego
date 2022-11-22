@@ -26,15 +26,23 @@ $('#login-button').click(function(){
     let email = document.getElementById('txtemail').value;
     let password = document.getElementById('txtpassword').value;
 
-   fetch("http://localhost:3001/api/login/getusuarioExiste/"+email +"/"+password+"")
+   fetch("https://apirest.gec.org.mx/api/login/getusuarioExiste/"+email +"/"+password+"")
    .then(resp => resp.json())
    .then(resp => {
 
+   console.log(resp)
     if (resp[0].length>0) {
-      sessionStorage.setItem('emailActivo', email)
-      sessionStorage.setItem('rolEmail', 1)
-    console.log(sessionStorage.getItem('emailActivo'), sessionStorage.getItem('rolEmail'))
-    validar()
+
+      resp.forEach(element => {
+          console.log("hola",element)
+      
+          sessionStorage.setItem('emailActivo', email)
+          sessionStorage.setItem('rolEmail', element[0].roles)
+          sessionStorage.setItem('nombre', element[0].nombre)
+        console.log(sessionStorage.getItem('emailActivo'), sessionStorage.getItem('rolEmail'), sessionStorage.getItem('nombre'))
+       validar()
+        
+      });
    } else{
        Swal.fire({
            position: 'top-end',
