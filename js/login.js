@@ -34,7 +34,7 @@ $('#login-button').click(function(){
     if (resp[0].length>0) {
 
       resp.forEach(element => {
-          console.log("hola",element)
+          console.log("rol",element[0].roles)
       
           sessionStorage.setItem('emailActivo', email)
           sessionStorage.setItem('rolEmail', element[0].roles)
@@ -53,22 +53,22 @@ $('#login-button').click(function(){
          })
       }
    })
-
-   
-
-    
-    
-  })
+})
 
   function validar() {
     if (sessionStorage.getItem('emailActivo')) {
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Datos correctos',
-            showConfirmButton: false,
-            timer: 2000
-          })
-          window.location.href = "index.html"
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'bienvenida '+sessionStorage.getItem('nombre'),
+        showConfirmButton: true,
+        timer: 3000
+      })
+
+      setTimeout( ()=> {
+        window.location.href = "index.html"; 
+      },4000)
+        
+          
        }
 }

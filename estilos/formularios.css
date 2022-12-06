@@ -98,23 +98,8 @@ h2 {
   font-size: calc(var(--font-size) * 1.5);
 }
 
-.form {
-  position: relative;
-  width: 100%;
-  max-width: 450px;
-  margin: 0 auto;
-  transform: skewY(-5deg) translateY(10%) scale(0.94);
-  transition: box-shadow var(--duration) var(--ease), transform var(--duration) var(--ease);
-}
-.form:before, .form:after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  background-color: mediumslateblue;
-  width: 25%;
-  height: 100%;
-  transition: background-color var(--duration) var(--ease), transform var(--duration) var(--ease);
-}
+
+
 .form:before {
   top: 0;
   right: calc(100% - 1px);
@@ -166,15 +151,13 @@ h2 {
 .input-group input {
   border-radius: var(--base-border-radius);
   padding-left: calc(var(--space-s) + 60px);
+  height: auto;
+  border-width: 3px;
 }
-.input-group .icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  border-top-left-radius: var(--base-border-radius);
-  border-bottom-left-radius: var(--base-border-radius);
-  pointer-events: none;
+
+#txtcultivociclo_revisado, #txtranchociclo_revisado, #txtstatusciclo_producto, #txtcomentariociclo, #txtcultivo_revisado, #txtrancho_revisado, #txtmetodo_aplicacion, #txtstatus_producto, #txtcultivoestacion_revisado, #txtranchoestacion_revisado, #txtvariedadestacion{
+  height: 50px;
+  border-width: 3px;
 }
 
 label {
@@ -214,8 +197,8 @@ input, select, textarea {
   font-size: var(--font-size);
   font-family: var(--font-family);
   color: var(--color-secondary);
-  border: 2px solid var(--color-primary);
 }
+
 input:focus {
   color: var(--color-primary);
 }
@@ -330,12 +313,17 @@ i{
   height: 80px;
 }
 
+#menu-suelos, #menu-ciclos, #menu-estaciones, #menu-suelos-reportes, #menu-ciclos-reportes, #menu-estaciones-reportes{
+  width: 21rem;
+  height: 60px;
+}
+
 #fecha-consulta-suelo{
   display: none;
 }
 
 #home-strong{
-  font-size: 25px;
+  font-size: 17px;
 }
 
 #strong-td{

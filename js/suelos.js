@@ -28,6 +28,8 @@ function obtener(){
    document.getElementById("txtfecha").value = dia_efecto
 
         var fecha = document.getElementById("fecha_suelo").value;
+
+       
    
     $(".table tbody").html(""); //limpia la tabla
     
@@ -36,28 +38,55 @@ function obtener(){
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
+
+      if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')) {
+       //console.log(i, resp[i].humedad)
+       $("#tbodysuelo-rep").append('<tr class="table-active"><td class="table-active"><b id="strong-td">'+
+       element.id_rsuelo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.rancho_revisado+'</b></td><td style="text-align:center;" style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.metodo_aplicacion+'</b></td><td style="text-align:center;"class="table-active"><b id="strong-td">'+
+       element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ph_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ph_tierra+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
+       element.ce_gotero+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
+       element.ce_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ce_tierra+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>') 
+      }else{
+        if (sessionStorage.getItem('emailActivo') == element.usuario){
+            //console.log(i, resp[i].humedad)
+       $("#tbodysuelo-rep").append('<tr class="table-active"><td class="table-active"><b id="strong-td">'+
+       element.id_rsuelo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.rancho_revisado+'</b></td><td style="text-align:center;" style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.metodo_aplicacion+'</b></td><td style="text-align:center;"class="table-active"><b id="strong-td">'+
+       element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ph_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ph_tierra+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
+       element.ce_gotero+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
+       element.ce_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.ce_tierra+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+       element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>') 
+        }
+      }
      
-        //console.log(i, resp[i].humedad)
-        $("#tbodysuelo-rep").append('<tr class="table-active"><td class="table-active"><b id="strong-td">'+
-        element.id_rsuelo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.rancho_revisado+'</b></td><td style="text-align:center;" style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.metodo_aplicacion+'</b></td><td style="text-align:center;"class="table-active"><b id="strong-td">'+
-        element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ph_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ph_tierra+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
-        element.ce_gotero+'</b></td><td style="text-align:center;" sclass="table-active"><b id="strong-td">'+
-        element.ce_bomba+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ce_tierra+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>')
        
     });
 })
@@ -66,14 +95,16 @@ function obtener(){
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
-     
-        //console.log(i, resp[i].humedad)
+
+      if (sessionStorage.getItem('emailActivo') == element.usuario){
+          //console.log(i, resp[i].humedad)
         $("#tbodysuelo-reg").append('<tr class="table-active"></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>')
+      }
        
     });
 })
@@ -291,7 +322,7 @@ console.log(iduser2)
     document.getElementById("img-fondo").style.display = "none";
     document.getElementById('btn-suelo').style.display = "none";
     document.getElementById('detalle_suelo').style.display = "inline";
-    document.getElementById('title-suelo').innerHTML = "Reportes de suelos por fecha";
+    document.getElementById('title-suelo').innerHTML = "REPORTES DE SUELOS POR FECHA";
     document.getElementById('suelo-reg').style.display = "none";
     tabla_suelo = false;
     obtener()

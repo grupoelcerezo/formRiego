@@ -35,30 +35,58 @@ if (tabla_ciclo == false) {
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
-     
-        //console.log(i, resp[i].humedad)
-        $("#tbodyciclo-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.id_rciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.tiempo_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.n_base+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ce_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.porcentaje_humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
+
+      if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')){
+    //console.log(i, resp[i].humedad)
+    $("#tbodyciclo-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.id_rciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.tiempo_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.n_base+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ce_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.porcentaje_humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
+      }else{
+        if (sessionStorage.getItem('emailActivo') == element.usuario){
+           //console.log(i, resp[i].humedad)
+    $("#tbodyciclo-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.id_rciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.tiempo_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.n_base+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ce_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.porcentaje_humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+    element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
+        }
+      }
     
     });
 })
@@ -67,15 +95,17 @@ if (tabla_ciclo == false) {
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
-     
-        //console.log(i, resp[i].humedad)
-        $("#tbodyciclo-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
+
+      if (sessionStorage.getItem('emailActivo') == element.usuario){
+ //console.log(i, resp[i].humedad)
+ $("#tbodyciclo-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+ (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+ element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+ element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+ element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+ element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+ element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button></td></tr>')
+      }
     
     });
 })
@@ -270,6 +300,21 @@ var cultivo = "";
       
     });
 
+    fetch('https://api.gec.org.mx/api/getCCVarierdad/')
+    .then(resp => resp.json())
+    .then( respObj => {
+     let i = 0;
+      respObj.forEach(respuesta => {
+      
+        if (respObj[i].cultivo == cultivo) {
+          $("#txtvariedadestacion").append("<option id='prueba2' value="+respObj[i].VARIERDAD+">"+respObj[i].VARIERDAD+"</option>")
+        }
+        
+        i=i+1;
+      });
+      
+    });
+
     })
 
     document.getElementById("menu-ciclos").addEventListener('click', () => {
@@ -290,7 +335,7 @@ var cultivo = "";
       document.getElementById("detalle_suelo").style.display = "none";
       document.getElementById("detalle_estacion").style.display = "none";
       document.getElementById("img-fondo").style.display = "none";
-      document.getElementById('title-ciclo').innerHTML = "Reportes de ciclos por fecha"
+      document.getElementById('title-ciclo').innerHTML = "REPORTES DE CICLOS POR FECHA"
   
       document.getElementById("btn-ciclo").style.display = "none";
 

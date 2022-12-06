@@ -33,8 +33,7 @@ function obtenerestacion(){
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
-     
-   
+      if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')) {
         $("#tbodyestaciones-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
@@ -51,6 +50,26 @@ function obtenerestacion(){
         element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+      }else{
+        if (sessionStorage.getItem('emailActivo') == element.usuario){
+          $("#tbodyestaciones-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.n_estacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.ph_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.ce_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+        }
+      }
       
     });
 })
@@ -60,13 +79,14 @@ function obtenerestacion(){
 .then(resp => {
     resp.forEach(element => {
      
-   
+      if (sessionStorage.getItem('emailActivo') == element.usuario) {
         $("#tbodyestaciones-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+      }
       
     });
 })
@@ -284,7 +304,7 @@ var cultivo = "";
       document.getElementById("detalle_suelo").style.display = "none"
       document.getElementById("detalle_ciclo").style.display = "none";
       document.getElementById("img-fondo").style.display = "none";
-      document.getElementById('title-estacion').innerHTML = "Reportes de estaciones por fecha"
+      document.getElementById('title-estacion').innerHTML = "REPORTES DE ESTACIONES POR FECHA"
     
       document.getElementById("btn-estacion").style.display = "none";
   
