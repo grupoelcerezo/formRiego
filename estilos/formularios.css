@@ -155,7 +155,7 @@ h2 {
   border-width: 3px;
 }
 
-#txtcultivociclo_revisado, #txtranchociclo_revisado, #txtstatusciclo_producto, #txtcomentariociclo, #txtcultivo_revisado, #txtrancho_revisado, #txtmetodo_aplicacion, #txtstatus_producto, #txtcultivoestacion_revisado, #txtranchoestacion_revisado, #txtvariedadestacion{
+#txtcultivociclo_revisado, #txtranchociclo_revisado, #txtstatusciclo_producto, #txtcomentariociclo, #txtcultivo_revisado, #txtrancho_revisado, #txtmetodo_aplicacion, #txtstatus_producto, #txtcultivoestacion_revisado, #txtranchoestacion_revisado, #txtvariedadestacion, #txtvariedadciclo{
   height: 50px;
   border-width: 3px;
 }
@@ -313,7 +313,7 @@ i{
   height: 80px;
 }
 
-#menu-suelos, #menu-ciclos, #menu-estaciones, #menu-suelos-reportes, #menu-ciclos-reportes, #menu-estaciones-reportes{
+#menu-suelos, #menu-ciclos, #menu-estaciones, #menu-suelos-reportes, #menu-ciclos-reportes, #menu-estaciones-reportes, #btn_delete_estacion{
   width: 21rem;
   height: 60px;
 }
@@ -328,6 +328,7 @@ i{
 
 #strong-td{
   color: black;
+  position: relative;
 }
 h5{
   text-align: center;

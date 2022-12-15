@@ -1,7 +1,9 @@
 let iduser3 = 0;
+let clave_estacion = 0;
 var editar = false;
 let tabla_estacion = false;
-
+var cultivo = "";
+var codigo = "";
 let dia_estacion = parseInt( ((new Date).toISOString()).slice(8,10) );
 if(dia_estacion != 0){
 
@@ -27,14 +29,14 @@ function obtenerestacion(){
 
     $(".table tbody").html(""); //limpia la tabla
     var fecha = document.getElementById("fecha_estacion").value;
-
+    
  if (tabla_estacion == false) {
   fetch('https://apirest.gec.org.mx/api//riegos/getFormEstacionesfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
       if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')) {
-        $("#tbodyestaciones-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        $("#tbodyestaciones-rep").append('<tr class="table-success"><td style="text-align:center;" class="table-succes"><b id="strong-td">'+
         element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
@@ -49,10 +51,10 @@ function obtenerestacion(){
         element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
       }else{
         if (sessionStorage.getItem('emailActivo') == element.usuario){
-          $("#tbodyestaciones-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+          $("#tbodyestaciones-rep").append('<tr class="table-success"><td style="text-align:center;" class="table-succes"><b id="strong-td">'+
           element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
           (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
           element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
@@ -67,7 +69,7 @@ function obtenerestacion(){
           element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
           element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
           element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+          element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
         }
       }
       
@@ -80,12 +82,12 @@ function obtenerestacion(){
     resp.forEach(element => {
      
       if (sessionStorage.getItem('emailActivo') == element.usuario) {
-        $("#tbodyestaciones-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
+        $("#tbodyestaciones-reg").append('<tr class="table-success"><td style="text-align:center;" class="table-succes"><b id="strong-td">'+
         (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button></td></tr>')
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
       }
       
     });
@@ -95,27 +97,74 @@ function obtenerestacion(){
     
 }
 
-$(document).on('click', '.editar', function () {
-           iduser3 = $(this).data("id");  
-           PintarUsuario(iduser3);
-           editar = true;
+$(document).on('click', '.editar_estacion', function () {
+  clave_estacion = $(this).data("id"); 
+  editar_estacion($(this).data("cultivo"))
+  editarEstacionVariedad($(this).data("codigo"))
+  editar = true;
+
+  let timerInterval
+Swal.fire({
+  title: 'Cargando datos para actualizar!',
+  timer: 2500,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading()
+    const b = Swal.getHtmlContainer().querySelector('b')
+    timerInterval = setInterval(() => {
+    }, 100)
+  },
+  willClose: () => {
+    clearInterval(timerInterval)
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log('I was closed by the timer')
+  }
+})
+
+  setTimeout( ()=> {
+    PintarEstacion(clave_estacion);
+  },3000)
+           
         });
 
-        function PintarUsuario(iduser3){
+        function PintarEstacion(clave_estacion){
+          console.log("CLAVE A EDITAR",clave_estacion)
+    fetch('https://apirest.gec.org.mx/api//riegos/getFormEstaciones/'+clave_estacion)
+    .then(resp => resp.json())
+    .then(resp => {
+      resp.forEach(element => {
+        cultivo = element.cultivo_revisado;
+        let año = element.fecha.slice(0,4);
+        let mes = element.fecha.slice(5,7);
+        let dia = element.fecha.slice(8,10);
+        fecha_c = año+"-"+mes+"-"+dia;
+      $("#txtfechaestacion").val(fecha_c)
+    $("#txtcultivoestacion_revisado").val(element.cultivo_revisado)
+    $("#txtranchoestacion_revisado").val(element.rancho_revisado)
+    $("#txtnestacion_estacion").val(element.n_estacion)
+    $("#txtmililitrosestacion_captacion").val(element.mililitros_captacion)
+    $("#txtphestacion_entrada").val(element.ph_entrada)
+    $("#txtceestacion_entrada").val(element.ce_entrada)
+    $("#txtmililitrosestacion_dren").val(element.mililitros_dren)
+    $("#txtphestacion_dren").val(element.ph_dren)
+    $("#txtceestacion_dren").val(element.ce_dren)
+    $("#txtvariedadestacion").val(element.variedad)
+    $("#txtcomentarioestacion").val(element.comentario_general)
+      })
 
-$.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
-.done(function( response ) {
-    
-    $("#txtnombres").val(response.Name),
-    $("#txtdescription").val(response.Description),
-    $("#txtdocument").val(response.Quantity)
-  });
+      
+    })
+  
 }
     
 
 
     document.getElementById("saveestacion").addEventListener('submit', (event) => {
   event.preventDefault()
+  console.log(editar)
       if (editar == false) {
 
         document.getElementById("fecha_estacion").value = $("#txtfechaestacion").val();
@@ -125,7 +174,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
           cultivo_revisado : $("#txtcultivoestacion_revisado").val(),
           rancho_revisado : $("#txtranchoestacion_revisado").val(),
           n_estacion : $("#txtnestacion_estacion").val(),
-          mililitros_captacion : $("#txtmililitroscicloestacion_captacion").val(),
+          mililitros_captacion : $("#txtmililitrosestacion_captacion").val(),
           ph_entrada : $("#txtphestacion_entrada").val(),
           ce_entrada : $("#txtceestacion_entrada").val(),
           mililitros_dren : $("#txtmililitrosestacion_dren").val(),
@@ -152,7 +201,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
     position: 'top-end',
     icon: 'success',
     title: 'Registro Exitoso en estación',
-    showConfirmButton: false,
+    showConfirmButton: true,
     timer: 1500
   })
   
@@ -163,8 +212,8 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
                         position: 'top-end',
                         icon: 'error',
                         title: resp.mensaje,
-                        showConfirmButton: false,
-                        timer: 2000
+                        showConfirmButton: true,
+                        timer: 5000
                       }) 
                 }
                 
@@ -175,38 +224,72 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
             })
           
       }else{
+        console.log("fecha no es vacia",$("#txtfechaestacion").val())
         var data = {
-                  id : iduser3,
-                  cultivo_revisado : $("#txtcultivoestacion_revisado").val(),
-                  rancho_revisado : $("#txtranchoestacion_revisado").val(),
-                  n_estacion : $("#txtnestacion_estacion").val(),
-                  mililitros_captacion : $("#txtmililitroscicloestacion_captacion").val(),
-                  ph_entrada : $("#txtphestacion_entrada").val(),
-                  ce_entrada : $("#txtceestacion_entrada").val(),
-                  mililitros_dren : $("#txtmililitrosestacion_dren").val(),
-                  ph_dren : $("#txtphestacion_dren").val(),
-                  ce_dren : $("#txtceestacion_dren").val(),
-                  variedad : $("#txtvariedadestacion").val(),
-                  comentario_general : $("#txtcomentarioestacion").val(),
+          fecha : $("#txtfechaestacion").val(),
+          cultivo_revisado : $("#txtcultivoestacion_revisado").val(),
+          rancho_revisado : $("#txtranchoestacion_revisado").val(),
+          n_estacion : $("#txtnestacion_estacion").val(),
+          mililitros_captacion : $("#txtmililitrosestacion_captacion").val(),
+          ph_entrada : $("#txtphestacion_entrada").val(),
+          ce_entrada : $("#txtceestacion_entrada").val(),
+          mililitros_dren : $("#txtmililitrosestacion_dren").val(),
+          ph_dren : $("#txtphestacion_dren").val(),
+          ce_dren : $("#txtceestacion_dren").val(),
+          variedad : $("#txtvariedadestacion").val(),
+          comentario_general : $("#txtcomentarioestacion").val(),
             }
 
-                $.ajax({
-                method: "PUT",
-                url: "https://apirest.gec.org.mx/api//riegos/getFormEstaciones"+iduser3,
-                contentType: 'application/json',
-                data: JSON.stringify(data), // access in body
-                })
-                .done(function( response ) {
-                    console.log(response);
-                    if(response){
-                        alert("Se guardaron los cambios");
-                      
-                    }else{
-                        alert("Error al Modificar")
-                    }
-                });
+            
+            fetch('https://apirest.gec.org.mx/api//riegos/getFormEstaciones/'+clave_estacion+'', {
+              method: 'PUT',
+              body: JSON.stringify(data),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+            })
+            .then( resp => resp.json())
+            .then( resp => {
+              console.log(resp.status)
+              if (resp.status = 'Correcto') {
+document.getElementById("saveestacion").reset();
+Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: 'Actualizacion con Exito en estación',
+  showConfirmButton: true,
+  timer: 1500
+})
+
+obtenerestacion();
+$('#Modal-estaciones').modal('hide')
+              }else{
+                  Swal.fire({
+                      position: 'top-end',
+                      icon: 'error',
+                      title: resp.message,
+                      showConfirmButton: false,
+                      timer: 5000
+                    }) 
+              }
+              
+          } )
+          .catch(error => {
+              console.log("error de peticion")
+              console.log(error)
+          })
+                
+                
                 editar = false;
       }
+})
+
+document.getElementById("canselar_est_down").addEventListener('click', () => {
+  editar = false;
+})
+
+document.getElementById("canselar_est_up").addEventListener('click', () => {
+  editar = false;
 })
 
   
@@ -214,10 +297,10 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormEstaciones" + iduser3)
 $(document).on('click', '.eliminar', function () {
     iduser3 = $(this).data("id");
     fecha = $(this).data("fecha");
- 
+ console.log(iduser3)
     document.getElementById("fecha_estacion").value = fecha.slice(0,10);
 
-    fetch('https://apirest.gec.org.mx/api//riegos/getFormEstaciones/'+iduser3+'', {
+    fetch('https://apirest.gec.org.mx/api/riegos/getFormEstaciones/'+iduser3+'', {
         method: 'DELETE',
     })
     .then( resp => {
@@ -242,18 +325,18 @@ $(document).on('click', '.eliminar', function () {
 
 
 
-var cultivo = "";
+
         //CULTIVOS
 
      
 
          document.getElementById("txtcultivoestacion_revisado").addEventListener('change', () => {
-  console.log("ciclos")
+  
           $("#txtranchoestacion_revisado").find('option').not(':first').remove();
-          $("#txtvariedadestacion").find('option').not(':first').remove();
+          
           
           cultivo = document.getElementById("txtcultivoestacion_revisado").value;
-        
+          
          
           fetch('https://api.gec.org.mx/api/getCecos//')
     .then(resp => resp.json())
@@ -263,21 +346,7 @@ var cultivo = "";
       
         if (respObj[i].CULTIVO == cultivo && respObj[i].MEDIO == "SUSTRATO") {
           $("#txtranchoestacion_revisado").append("<option id='prueba2' value="+respObj[i].CODIGO+">"+respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION+"</option>")
-        }
         
-        i=i+1;
-      });
-      
-    });
-
-    fetch('https://api.gec.org.mx/api/getCCVarierdad/')
-    .then(resp => resp.json())
-    .then( respObj => {
-     let i = 0;
-      respObj.forEach(respuesta => {
-      
-        if (respObj[i].cultivo == cultivo) {
-          $("#txtvariedadestacion").append("<option id='prueba2' value="+respObj[i].VARIERDAD+">"+respObj[i].VARIERDAD+"</option>")
         }
         
         i=i+1;
@@ -286,6 +355,63 @@ var cultivo = "";
     });
 
     })
+
+    function editar_estacion(cult){
+      fetch('https://api.gec.org.mx/api/getCecos//')
+    .then(resp => resp.json())
+    .then( respObj => {
+     let i = 0;
+      respObj.forEach(respuesta => {
+        if (respObj[i].CULTIVO == cult && respObj[i].MEDIO == "SUSTRATO") {
+          $("#txtranchoestacion_revisado").append("<option id='prueba2' value="+respObj[i].CODIGO+">"+respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION+"</option>")
+          //console.log(respObj[i].CODIGO)
+        }
+        
+        i=i+1;
+      });
+      
+    });
+    }
+
+    document.getElementById('txtranchoestacion_revisado').addEventListener('change', () => {
+
+      $("#txtvariedadestacion").find('option').not(':first').remove();
+      codigo = document.getElementById('txtranchoestacion_revisado').value;
+
+      fetch('https://api.gec.org.mx/api/getCCVarierdad/')
+    .then(resp => resp.json())
+    .then( respObj => {
+     let i = 0;
+      respObj.forEach(respuesta => {
+      
+        if (respObj[i].centro_costo == codigo) {
+          $("#txtvariedadestacion").append("<option id='prueba2' value="+respObj[i].VARIERDAD+">"+respObj[i].VARIERDAD+"</option>")
+        }
+        
+        i=i+1;
+      });
+      
+    });
+    })
+    
+function editarEstacionVariedad(cod) {
+  //console.log("codioooo",cod)
+  fetch('https://api.gec.org.mx/api/getCCVarierdad/')
+  .then(resp => resp.json())
+  .then( respObj => {
+   let i = 0;
+    respObj.forEach(respuesta => {
+      if (respObj[i].centro_costo == cod) {
+      //  console.log("estacion",respObj[i].VARIERDAD)
+        $("#txtvariedadestacion").append("<option id='prueba2' value="+respObj[i].VARIERDAD+">"+respObj[i].VARIERDAD+"</option>")
+      }
+      
+      i=i+1;
+    });
+    
+  });
+}
+
 
     document.getElementById("menu-estaciones").addEventListener('click', () => {
       document.getElementById("detalle_estacion").style.display = "inline";

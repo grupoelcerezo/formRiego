@@ -48,7 +48,7 @@ $('#login-button').click(function(){
            position: 'top-end',
            icon: 'error',
            title: 'Datos no validos',
-           showConfirmButton: false,
+           showConfirmButton: true,
            timer: 3000
          })
       }

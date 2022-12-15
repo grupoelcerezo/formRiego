@@ -1,8 +1,7 @@
-
-
 let iduser = 0;
 var editar = false;
 let tabla_suelo = false;
+let clave_suelo = 0;
 
 let dia = parseInt( ((new Date).toISOString()).slice(8,10) );
 if(dia != 0){
@@ -34,7 +33,7 @@ function obtener(){
     $(".table tbody").html(""); //limpia la tabla
     
    if (tabla_suelo == false) {
-    fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelosfecha/'+fecha+'')
+    fetch('https://apirest.gec.org.mx/api/riegos/getFormSuelosfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
@@ -60,7 +59,7 @@ function obtener(){
        element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-       element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>') 
+       element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button><br><br><button class="editar_suelo btn-primary btn-block" data-id="'+element.id_rsuelo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-suelo">Editar</button></td></tr>') 
       }else{
         if (sessionStorage.getItem('emailActivo') == element.usuario){
             //console.log(i, resp[i].humedad)
@@ -83,7 +82,7 @@ function obtener(){
        element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-       element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>') 
+       element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button><br><br><button class="editar_suelo btn-primary btn-block" data-id="'+element.id_rsuelo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-suelo">Editar</button></td></tr>') 
         }
       }
      
@@ -91,7 +90,7 @@ function obtener(){
     });
 })
    }else{
-    fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelosfecha/'+fecha+'')
+    fetch('https://apirest.gec.org.mx/api/riegos/getFormSuelosfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
@@ -103,33 +102,77 @@ function obtener(){
         element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
         element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button></tr>')
+        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'"  data-id="'+element.id_rsuelo+'">Eliminar</button><br><br><button class="editar_suelo btn-primary btn-block" data-id="'+element.id_rsuelo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-suelo">Editar</button></td></tr>')
       }
        
     });
 })
    }
+  }
 
+$(document).on('click', '.editar_suelo', function () {
+  clave_suelo = $(this).data("id"); 
+  editar_suelo($(this).data("cultivo"))
+  editar = true;
 
+  let timerInterval
+Swal.fire({
+  title: 'Cargando datos para actualizar!',
+  timer: 2500,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading()
+    const b = Swal.getHtmlContainer().querySelector('b')
+    timerInterval = setInterval(() => {
+    }, 100)
+  },
+  willClose: () => {
+    clearInterval(timerInterval)
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+  }
+})
 
-}
+  setTimeout( ()=> {
+    PintarSuelo(clave_suelo);
+  },3000)
+            });
 
-$(document).on('click', '.editar', function () {
-           iduser = $(this).data("id");  
-           PintarUsuario(iduser);
-           editar = true;
-        });
-
-        function PintarUsuario(iduser){
-
-$.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
-.done(function( response ) {
+            function PintarSuelo(clave_suelo){
+              //console.log("CLAVE A EDITAR",clave_suelo)
+        fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelos/'+clave_suelo)
+        .then(resp => resp.json())
+        .then(resp => {
+          resp.forEach(element => {
+            cultivo = element.cultivo_revisado;
+            let año = element.fecha.slice(0,4);
+            let mes = element.fecha.slice(5,7);
+            let dia = element.fecha.slice(8,10);
+            fecha_c = año+"-"+mes+"-"+dia;
+            $("#txtfecha").val(fecha_c);
+            $("#txtcultivo_revisado").val(element.cultivo_revisado);
+            $("#txtrancho_revisado").val(element.rancho_revisado);
+            $("#txtmetodo_aplicacion").val(element.metodo_aplicacion);
+            $("#txtstatus_producto").val(element.status_producto);
+            $("#txthumedad").val(element.humedad);
+            $("#txtpresion_riego_valvula").val(element.presion_riego_valvula);
+            $("#txtpresion_riego_cintilla_manguera").val(element.presion_riego_cintilla_manguera);
+            $("#txthp_gotero").val(element.ph_gotero);
+            $("#txtph_bomba").val(element.ph_bomba);
+            $("#txtph_tierra").val(element.ph_tierra);
+            $("#txtce_gotero").val(element.ce_gotero);
+            $("#txtce_bomba").val(element.ce_bomba);
+            $("#txtce_tierra").val(element.ce_tierra);
+            $("#txtevapotranspiracion").val(element.evapotranspiracion);
+            $("#txtcomentario").val(element.comentario_general);
+          })
     
-    $("#txtnombres").val(response.Name),
-    $("#txtdescription").val(response.Description),
-    $("#txtdocument").val(response.Quantity)
-  });
-}
+          
+        })
+      
+    }
     
 
 
@@ -158,7 +201,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
           usuario: sessionStorage.getItem('emailActivo')
             }
 
-            fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelos', {
+            fetch('https://apirest.gec.org.mx/api/riegos/getFormSuelos', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
@@ -167,7 +210,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
 })
 .then( resp => resp.json())
             .then( resp => {
-                console.log(resp)
+                //console.log(resp)
                 if (resp.status != 'ERROR') {
   document.getElementById("savesuelo").reset();
   Swal.fire({
@@ -186,7 +229,7 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
                         icon: 'error',
                         title: resp.mensaje,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 5000
                       }) 
                 }
                 
@@ -198,52 +241,85 @@ $.get("https://apirest.gec.org.mx/api//riegos/getFormFormSuelos" + iduser)
           
        
       }else{
+        console.log("fecha no es vacia",$("#txtfechasuelo").val())
         var data = {
-                  id : iduser,
-          Cultivo_Revisado : $("#txtcultivo_revisado").val(),
-          Rancho_revisado : $("#txtrancho_revisado").val(),
-          Metodo_aplicacion : $("#txtmetodo_aplicacion").val(),
-          Status_producto : $("#txtstatus_producto").val(),
-          Humedad : $("#txthumedad").val(),
-          Presion_riego_valvula : $("#txpresion_riego_valvula").val(),
-          Presion_riego_cintilla_manguera : $("#txpresion_riego_cintilla_manguera").val(),
-          Ph_gotero : $("#txthp_gotero").val(),
+          fecha : $("#txtfecha").val(),
+          cultivo_revisado : $("#txtcultivo_revisado").val(),
+          rancho_revisado : $("#txtrancho_revisado").val(),
+          metodo_aplicacion : $("#txtmetodo_aplicacion").val(),
+          status_producto : $("#txtstatus_producto").val(),
+          humedad : $("#txthumedad").val(),
+          presion_riego_valvula : $("#txtpresion_riego_valvula").val(),
+          presion_riego_cintilla_manguera : $("#txtpresion_riego_cintilla_manguera").val(),
+          ph_gotero : $("#txthp_gotero").val(),
           ph_bomba : $("#txtph_bomba").val(),
-          ph_tierra : $("#txtph_tierra txtph_tierra").val(),
-          Ce_gotero : $("#txtce_gotero").val(),
-          Ce_bomba : $("#txtce_bomba").val(),
-          Ce_tierra : $("#txce_tierra").val(),
-          Evapotranspiracion: $("#txtevapotranspiracion").val(),
-          Comentario : $("#txtcomentario").val(),
-            }
+          ph_tierra : $("#txtph_tierra").val(),
+          ce_gotero : $("#txtce_gotero").val(),
+          ce_bomba : $("#txtce_bomba").val(),
+          ce_tierra : $("#txtce_tierra").val(),
+          evapotranspiracion: $("#txtevapotranspiracion").val(),
+          comentario_general : $("#txtcomentario").val()
+        }
 
-                $.ajax({
-                method: "PUT",
-                url: "https://apirest.gec.org.mx/api//riegos/getFormSuelos"+iduser,
-                contentType: 'application/json',
-                data: JSON.stringify(data), // access in body
-                })
-                .done(function( response ) {
-                    console.log(response);
-                    if(response){
-                        alert("Se guardaron los cambios");
-                      
-                    }else{
-                        alert("Error al Modificar")
-                    }
-                });
+            
+            fetch('https://apirest.gec.org.mx/api/riegos/getFormSuelos/'+clave_suelo+'', {
+              method: 'PUT',
+              body: JSON.stringify(data),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+            })
+            .then( resp => resp.json())
+            .then( resp => {
+              console.log(resp.status)
+              if (resp.status = 'Correcto') {
+document.getElementById("savesuelo").reset();
+Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: 'Actualizacion con Exito en estación',
+  showConfirmButton: true,
+  timer: 1500
+})
+
+obtener();
+$('#Modal-suelo').modal('hide')
+              }else{
+                  Swal.fire({
+                      position: 'top-end',
+                      icon: 'error',
+                      title: resp.message,
+                      showConfirmButton: false,
+                      timer: 5000
+                    }) 
+              }
+              
+          } )
+          .catch(error => {
+              console.log("error de peticion")
+              console.log(error)
+          })
+                
+                
                 editar = false;
       }
 })
 
+document.getElementById("canselar_sue_down").addEventListener('click', () => {
+  editar = false;
+})
+
+document.getElementById("canselar_sue_up").addEventListener('click', () => {
+  editar = false;
+})
   
 
 $(document).on('click', '.eliminar', function () {
     iduser = $(this).data("id");
     fecha = $(this).data("fecha");
     document.getElementById("fecha_suelo").value = fecha.slice(0,10);
-console.log(iduser2)
-    fetch('https://apirest.gec.org.mx/api//riegos/getFormSuelos/'+iduser+'', {
+//console.log(iduser2)
+    fetch('https://apirest.gec.org.mx/api/riegos/getFormSuelos/'+iduser+'', {
         method: 'DELETE',
     })
     .then( resp => {
@@ -285,7 +361,7 @@ console.log(iduser2)
       
 
          
-         cultivo_estacion = document.getElementById("txtcultivo_revisado").value;
+         cultivo_suelo = document.getElementById("txtcultivo_revisado").value;
        
        
          fetch('https://api.gec.org.mx/api/getCecos/')
@@ -293,8 +369,8 @@ console.log(iduser2)
    .then( respObj => {
     let i = 0;
      respObj.forEach(respuesta => {
-       console.log(respObj[i].CULTIVO,cultivo_estacion) 
-       if (respObj[i].CULTIVO == cultivo_estacion && respObj[i].MEDIO == "SUELO") {
+       console.log(respObj[i].CULTIVO,cultivo_suelo) 
+       if (respObj[i].CULTIVO == cultivo_suelo && respObj[i].MEDIO == "SUELO") {
          $("#txtrancho_revisado").append("<option id='prueba' value="+respObj[i].CODIGO+">"+respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION+"</option>")
        }
        
@@ -304,6 +380,25 @@ console.log(iduser2)
    });
 
    })
+
+   function editar_suelo(cult){
+    fetch('https://api.gec.org.mx/api/getCecos/')
+    .then(resp => resp.json())
+    .then( respObj => {
+     let i = 0;
+      respObj.forEach(respuesta => {
+       // console.log(respObj[i].CULTIVO,cultivo_suelo) 
+        if (respObj[i].CULTIVO == cult && respObj[i].MEDIO == "SUELO") {
+          $("#txtrancho_revisado").append("<option id='prueba' value="+respObj[i].CODIGO+">"+respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION+"</option>")
+        }
+        
+        i=i+1;
+      });
+      
+    });
+  }
+
+  
        
    document.getElementById("menu-suelos").addEventListener('click', () => {
     document.getElementById("fecha-consulta-suelo").style.display = "inline";
