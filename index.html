@@ -23,7 +23,10 @@
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
  
 
-    
+     <style type="text/css">
+			.row { margin: 5px 0; }
+			.row div[class*='col'] { padding: 5px; background: yellowgreen; text-align: center; border: 1px solid; width: 100;}
+		</style>
   </head>
  
   <body>
@@ -79,44 +82,61 @@
 
   </div>
 </div> 
-</center><br>   
+</center> 
 
 <center>
   
   <div class="card" style="width: 18rem; height: 35rem;" id="fecha-consulta-suelo">
   <div class="card-body">
-    <h4 class="card-title" id="title-suelo"></h4>
+    <b class="card-title" id="title-suelo"></b>
     
     <div >
       <!-- Modal info suelo-->
       <div class="input-wrapper" >
         <!-- Button trigger modal suelo-->
-        <button type="button" id="btn-suelo" class="btn btn-success" data-toggle="modal" data-target="#Modal-suelo"><b id="home-strong"> REGISTRAR REQUISITOS SUELO</b><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <button type="button" id="btn-suelo" class="btn btn-success btn-block" data-toggle="modal" data-target="#Modal-suelo"><b id="home-strong"> REGISTRAR REQUISITOS SUELO</b><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
         </svg></button><br>
+
+        <div class="container" id="detalle_suelo">
+          <div class="row">
+
+            <div class="container" >
+              <div class="row">
+              <div class="input-group col" style="width: 25rem"><span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                </svg></span>
+                <input type="date" id="fecha_suelo" oninput="obtener()" rows="3" placeholder="" required autocomplete="off">
+              </div>
       
-        <div id="detalle_suelo">
-        <div class="input-group"><span class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
-            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-          </svg></span>
-          <input type="date" id="fecha_suelo" oninput="obtener()" rows="3" placeholder="" required autocomplete="off">
-        </div>
+              <div class="input-group col-lg-auto" style="width: 25rem"><span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg></span>
+                <input type="text" id="txtfiltro_suelo_cr"  rows="3" placeholder="BUSCAR..." required autocomplete="off">
+              </div>
+            </div></div>
+          
+          </div>
       </div>
-      </div><br>
+          
+    </div>
                
-      <div class="table table-striped table-hover" id="suelo-reg">
-                <table class="table table-striped">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar table table-responsive" id="suelo-reg">
+                <table class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
+                  <caption>Fin de la consulta registros en suelos</caption>
                     <thead>
                         <tr>
-                            <th scope="col"><h5>FECHA</h5> </th>
-                            <th scope="col"><h5>CULTIVO REVISADO</h5> </th>
-                            <th scope="col"><h5>RANCHO REVISADO</h5></th>
-                            <th scope="col"><h5>FECHA ACTUALIZACIÓN</h5></th>
-                            <th scope="col"><h5>USUARIO</h5></th>
-                            <th scope="col"><h5>OPCIÓN</h5></th>
+                          <th scope="col">#</th>
+                            <th scope="col">FECHA</th>
+                            <th scope="col">CULTIVO REVISADO</th>
+                            <th scope="col">RANCHO REVISADO</th>
+                            <th scope="col">FECHA ACTUALIZACIÓN</th>
+                            <th scope="col">USUARIO</th>
+                            <th scope="col">OPCIÓN</th>
                         </tr>
                     </thead>
                     <tbody id="tbodysuelo-reg">
@@ -125,51 +145,53 @@
                       </tr>
                     </tbody>
                 </table>
-              </div></div>
+              </div>
 
-              <div class="table-responsive" id="suelo-rep">
-                <table class="table table-striped">
+              <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive" id="suelo-rep">
+                <table class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
+      
+                  <caption>Fin de la consulta registros en suelos</caption>
                     <thead>
                         <tr>
-                          <th scope="col"><h5>CLAVE</h5></th>
-                            <th scope="col"><h5>FECHA</h5> </th>
-                            <th scope="col"><h5>CULTIVO REVISADO</h5> </th>
-                            <th scope="col"><h5>RANCHO REVISADO</h5></th>
-                            <th scope="col"><h5>MÉTODO APLICACIÓN</h5></th>
-                            <th scope="col"><h5>TIENE PRODUCTO</h5></th>
-                            <th scope="col"><h5>HUMEDAD (0% - 100%)</h5></th>
-                            <th scope="col"><h5>PRESIÓN RIEGO VALVULA</h5></th>
-                            <th scope="col"><h5>PRESIÓN DE RIEGO (GOTERO / PIVOTE)</h5></th>
-                            <th scope="col"><h5>PH-(GOTERO / PIVOTE)</h5></th>
-                            <th scope="col"><h5>PH-BOMBA</h5></th>
-                            <th scope="col"><h5>PH-TIERRA</h5></th>
-                            <th scope="col"><h5>CE-(GOTERO / PIVOTE)</h5></th>
-                            <th scope="col"><h5>CE-BOMBA</h5></th>
-                            <th scope="col"><h5>CE-TIERRA</h5></th>
-                            <th scope="col"><h5>EVAPOTRANSPIRACIÓN</h5></th>
-                            <th scope="col"><h5>COMENTARIO GENERAL</h5></th>
-                            <th scope="col"><h5>FECHA ACTUALIZACIÓN</h5></th>
-                            <th scope="col"><h5>USUARIO</h5></th>
-                            <th scope="col"><h5>OPCIÓN</h5></th>
+                          <th scope="col">#</th>
+                          <th scope="col">CLAVE</th>
+                            <th scope="col">FECHA</th>
+                            <th scope="col">CULTIVO REVISADO</th>
+                            <th scope="col">RANCHO REVISADO</th>
+                            <th scope="col">MÉTODO APLICACIÓN</th>
+                            <th scope="col">TIENE PRODUCTO</th>
+                            <th scope="col">HUMEDAD (0% - 100%)</th>
+                            <th scope="col">PRESIÓN RIEGO VALVULA</th>
+                            <th scope="col">PRESIÓN DE RIEGO (GOTERO / PIVOTE)</th>
+                            <th scope="col">PH-(GOTERO / PIVOTE)</th>
+                            <th scope="col">PH-BOMBA</th>
+                            <th scope="col">PH-TIERRA</th>
+                            <th scope="col">CE-(GOTERO / PIVOTE)</th>
+                            <th scope="col">CE-BOMBA</th>
+                            <th scope="col">CE-TIERRA</th>
+                            <th scope="col">EVAPOTRANSPIRACIÓN</th>
+                            <th scope="col">COMENTARIO GENERAL</th>
+                            <th scope="col">FECHA ACTUALIZACIÓN</th>
+                            <th scope="col">USUARIO</th>
+                            <th scope="col">OPCIÓN</th>
                         </tr>
                     </thead>
                     <tbody id="tbodysuelo-rep">
-                      <tr>
-                  
-                      </tr>
+                      
                     </tbody>
-                </table>
-              </div></div>
-         
+                </table></div>
+              
+              </div>
+            </div>
+          </div>
               
       <!--información suelo fin-->
 
-  </div>
-</div>
+ 
     
 <div class="card" style="width: 18rem; height: 35rem;" id="detalle_ciclo">
   <div class="card-body">
-    <h5 class="card-title" id="title-ciclo"></h5>
+    <b class="card-title" id="title-ciclo"></b>
     
     <div >
       <div class="input-wrapper">
@@ -178,27 +200,42 @@
         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
       </svg></button><br>
-      <div id="consulta_fecha">
-        <div class="input-group"><span class="icon">
+
+      <div class="container" id="consulta_fecha">
+        <div  class="row">
+
+        <div class="input-group col" style="width: 25rem;"><span class="icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
             <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
             <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
           </svg></span>
-          <input type="date" id="fecha_ciclo" oninput="obtenerciclo()" rows="3" placeholder="" required autocomplete="off">
+          <input type="date" id="fecha_ciclo" oninput="obtenerciclo()" rows="3"  placeholder="" required autocomplete="off">
         </div>
-      </div></div><br>
+        <div class="input-group col-lg-auto" style="width: 25rem;"><span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg></span>
+          <input type="text" id="txtfiltro_ciclo_cr" rows="3" placeholder="BUSCAR..." required autocomplete="off">
+        </div>
+        
+         
+         </div>
+      </div><br>
+    </div>
       
-      <div class=" table-responsive" id="ciclo-reg">
-      <table class="table table-striped">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive" id="ciclo-reg">
+      <table class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
+        <caption>Fin de la consulta registros en ciclos</caption>
         <thead>
             <tr>
-               <th scope="col"><h5>FECHA</h5></th>
-                <th scope="col"><h5>CULTIVO REVISADO</h5></th>
-                <th scope="col"><h5>RANCHO REVISADO</h5></th>
-                <th scope="col"><h5>#_CICLO</h5></th>
-                <th scope="col"><h5>FECHA ACTUALIZACIÓN</h5></th>
-                <th scope="col"><h5>USUARIO</h5></th>
-                <th scope="col"><h5>OPCIÓN</h5></th>
+              <th scope="col">#</th>
+               <th scope="col">FECHA</th>
+                <th scope="col">CULTIVO REVISADO</th>
+                <th scope="col">RANCHO REVISADO</th>
+                <th scope="col">#_CICLO</th>
+                <th scope="col">FECHA ACTUALIZACIÓN</th>
+                <th scope="col">USUARIO</th>
+                <th scope="col">OPCIÓN</th>
             </tr>
         </thead>
         <tbody id="tbodyciclo-reg">
@@ -208,33 +245,36 @@
         </tbody>
       </table></div>
     
-      <div class=" table-responsive" id="ciclo-rep">
-        <table class="table table-striped">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive" id="ciclo-rep">
+        <table class=" table table-striped table-bordered table-hover table-sm" cellspacing="0" width="100%">
+          
+          <caption>Fin de la consulta registros en ciclos</caption>
           <thead>
               <tr>
-                <th scope="col"><h5>CLAVE</h5></th>
-                 <th scope="col"><h5>FECHA</h5></th>
-                  <th scope="col"><h5>CULTIVO REVISADO</h5></th>
-                  <th scope="col"><h5>RANCHO REVISADO</h5></th>
-                  <th scope="col"><h5>#_CICLO</h5></th>
-                  <th scope="col"><h5>TIEMPO_CICLO(MINUTOS)</h5></th>
-                  <th scope="col"><h5>#_BASE</h5></th>
-                  <th scope="col"><h5>TIENE_PRODUCTO</h5></th>
-                  <th scope="col"><h5>PRESIÓN_RIEGO_VALVULA</h5></th>
-                  <th scope="col"><h5>PRESIÓN DE RIEGO (GOTERO/ PIVOTE)</h5></th>
-                  <th scope="col"><h5>PH_GOTERO</h5></th>
-                  <th scope="col"><h5>CE_GOTERO</h5></th>
-                  <th scope="col"><h5>MILILITROS_CAPTACIÓN</h5></th>
-                  <th scope="col"><h5>PH_DREN</h5></th>
-                  <th scope="col"><h5>CE_DREN</h5></th>
-                  <th scope="col"><h5>MILILITROS_DREN</h5> </th>
-                  <th scope="col"><h5>PORCENTAJE_HUMEDAD</h5></th>
-                  <th scope="col"><h5>EVAPOTRANSPIRACIÓN</h5></th>
-                  <th scope="col"><h5>VARIEDAD</h5></th>
-                  <th scope="col"><h5>COMENTARIO GENERAL</h5></th>
-                  <th scope="col"><h5>FECHA ACTUALIZACIÓN</h5></th>
-                  <th scope="col"><h5>USUARIO</h5></th>
-                  <th scope="col"><h5>OPCIÓN</h5></th>
+                <th scope="col">#</th>
+                <th scope="col">CLAVE</th>
+                 <th scope="col">FECHA</th>
+                  <th scope="col">CULTIVO REVISADO</th>
+                  <th scope="col">RANCHO REVISADO</th>
+                  <th scope="col">#_CICLO</th>
+                  <th scope="col">TIEMPO_CICLO(MINUTOS)</th>
+                  <th scope="col">#_BASE</th>
+                  <th scope="col">TIENE_PRODUCTO</th>
+                  <th scope="col">PRESIÓN_RIEGO_VALVULA</th>
+                  <th scope="col">PRESIÓN DE RIEGO (GOTERO/ PIVOTE)</th>
+                  <th scope="col">PH_GOTERO</th>
+                  <th scope="col">CE_GOTERO</th>
+                  <th scope="col">MILILITROS_CAPTACIÓN</th>
+                  <th scope="col">PH_DREN</th>
+                  <th scope="col">CE_DREN</th>
+                  <th scope="col">MILILITROS_DREN</th>
+                  <th scope="col">PORCENTAJE_HUMEDAD</th>
+                  <th scope="col">EVAPOTRANSPIRACIÓN</th>
+                  <th scope="col">VARIEDAD</th>
+                  <th scope="col">COMENTARIO GENERAL</th>
+                  <th scope="col">FECHA ACTUALIZACIÓN</th>
+                  <th scope="col">USUARIO</th>
+                  <th scope="col">OPCIÓN</th>
               </tr>
           </thead>
           <tbody id="tbodyciclo-rep">
@@ -251,7 +291,7 @@
 
 <div class="card" style="width: 18rem; height: 35rem;" id="detalle_estacion">
   <div class="card-body">
-    <h5 class="card-title" id="title-estacion"></h5>
+    <b class="card-title" id="title-estacion"></b>
     <div >
       <div class="input-wrapper">
         <!-- Button trigger modal estaciones-->
@@ -259,26 +299,37 @@
         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
       </svg></button><br>
-      <div id="consulta_estacion">
-        <div class="input-group"><span class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
-            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-          </svg></span>
-          <input type="date" id="fecha_estacion" oninput="obtenerestacion()" rows="3" placeholder="" required autocomplete="off">
-        </div>
-      </div></div><br>
+
+      <div class="container" id="consulta_estacion">
+            <div class="row">
+            <div class="input-group col" style="width: 25rem"><span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+              </svg></span>
+              <input type="date" id="fecha_estacion" oninput="obtenerestacion()" rows="3" placeholder="" required autocomplete="off">
+            </div>
+    
+            <div class="input-group col-lg-auto" style="width: 25rem"><span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg></span>
+              <input type="text" id="txtfiltro_estacion_cr"  rows="3" placeholder="BUSCAR..." required autocomplete="off">
+            </div>
+          </div></div><br>
       
-      <div class="table-responsive table-striped" id="estacion-rep">
-      <table class="table table-striped table-hover">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive" id="estacion-rep">
+      <table class="table table-striped table-bordered table-hover table-sm" cellspacing="0" width="100%">
+        <caption>Fin de la consulta registros en estaciones</caption>
         <thead>
            <tr>
-                <th scope="col"><h5>FECHA</h5></th>
-                <th scope="col"><h5>CULTIVO REVISADO</h5></th>
-                <th scope="col"><h5>RANCHO REVISADO</h5></th>
-                <th scope="col"><h5>FECHA ACTUALIZACIÓN</h5></th>
-                <th scope="col"><h5>USUARIO</h5></th>
-                <th scope="col"><h5>OPCIÓN</h5></th>
+                <th scope="col">#</th>
+                <th scope="col">FECHA</th>
+                <th scope="col">CULTIVO REVISADO</th>
+                <th scope="col">RANCHO REVISADO</th>
+                <th scope="col">FECHA ACTUALIZACIÓN</th>
+                <th scope="col">USUARIO</th>
+                <th scope="col">OPCIÓN</th>
             </tr> 
         </thead>
         <tbody id="tbodyestaciones-reg">
@@ -288,26 +339,31 @@
         </tbody>
       </table></div>
     
-      <div class="table-responsive table-striped" id="estacion-reg">
-        <table class="table table-striped table-hover">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive" id="estacion-reg">
+        <table class="table table-striped table-bordered table-hover table-sm" cellspacing="0" width="100%">
+
+          
+
+          <caption>Fin de la lista registros en estaciones</caption>
           <thead>
              <tr>
-                  <th scope="col"><h5>CLAVE</h5></th>
-                  <th scope="col"><h5>FECHA</h5></th>
-                  <th scope="col"><h5>CULTIVO REVISADO</h5></th>
-                  <th scope="col"><h5>RANCHO REVISADO</h5></th>
-                  <th scope="col"><h5>#_ESTACIÓN</h5></th>
-                  <th scope="col"><h5>MILILITROS_CAPATACIÓN</h5></th>
-                  <th scope="col"><h5>PH_ENTRADA</h5></th>
-                  <th scope="col"><h5>CE_ENTRADA</h5></th>
-                  <th scope="col"><h5>MILILITROS_DREN</h5></th>
-                  <th scope="col"><h5>PH_DREN</h5></th>
-                  <th scope="col"><h5>CE_DREN</h5></th>
-                  <th scope="col"><h5>VARIEDAD</h5></th>
-                  <th scope="col"><h5>COMENTARIO GENERAL</h5></th>
-                  <th scope="col"><h5>FECHA ACTUALIZACIÓN</h5></th>
-                  <th scope="col"><h5>USUARIO</h5></th>
-                  <th scope="col"><h5>OPCIÓN</h5></th>
+              <th scope="col">#</th>
+                  <th scope="col">CLAVE</th>
+                  <th scope="col">FECHA</th>
+                  <th scope="col">CULTIVO REVISADO</th>
+                  <th scope="col">RANCHO REVISADO</th>
+                  <th scope="col">#_ESTACIÓN</th>
+                  <th scope="col">MILILITROS_CAPATACIÓN</th>
+                  <th scope="col">PH_ENTRADA</th>
+                  <th scope="col">CE_ENTRADA</th>
+                  <th scope="col">MILILITROS_DREN</th>
+                  <th scope="col">PH_DREN</th>
+                  <th scope="col">CE_DREN</th>
+                  <th scope="col">VARIEDAD</th>
+                  <th scope="col">COMENTARIO GENERAL</th>
+                  <th scope="col">FECHA ACTUALIZACIÓN</th>
+                  <th scope="col">USUARIO</th>
+                  <th scope="col">OPCIÓN</th>
               </tr> 
           </thead>
           <tbody id="tbodyestaciones-rep">

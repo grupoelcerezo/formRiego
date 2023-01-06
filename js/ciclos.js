@@ -1,8 +1,32 @@
+$(document).ready(function(){
+  $("#txtfiltro_ciclo_cr").on("keyup", function() {
+
+    console.log("hola_ciclo")
+    var value = $(this).val().toLowerCase();
+    $("#tbodyciclo-rep tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#txtfiltro_ciclo_rr").on("keyup", function() {
+
+    console.log("hola 22")
+    var value = $(this).val().toLowerCase();
+    $("#tbodyciclo-rep tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
+
+
 let iduser2 = 0;
 var editar = false;
 let tabla_ciclo = false;
 let clave_ciclo = 0;
-
+let r = "";
+let j = 1;
 let dia_ciclo = parseInt( ((new Date).toISOString()).slice(8,10) );
 if (dia_ciclo != 0) {
 
@@ -32,65 +56,89 @@ function obtenerciclo(){
     var fecha = document.getElementById("fecha_ciclo").value;
 
 if (tabla_ciclo == false) {
+  let i = 0;
   fetch('https://apirest.gec.org.mx/api//riegos/getFormCiclosfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
- //console.log("ubica variedad",element)
-      if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')){
-    //console.log(i, resp[i].humedad)
-    $("#tbodyciclo-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.id_rciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.tiempo_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.n_base+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ce_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.porcentaje_humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button><br><br><button class="editar_ciclo btn-primary btn-block" data-id="'+element.id_rciclo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-detalle-ciclos">Editar</button></td></tr>')
-      }else{
-        if (sessionStorage.getItem('emailActivo') == element.usuario){
-           //console.log(i, resp[i].humedad)
-    $("#tbodyciclo-rep").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.id_rciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.tiempo_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.n_base+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.status_producto+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.presion_riego_valvula+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.presion_riego_cintilla_manguera+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ph_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ce_gotero+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.porcentaje_humedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.evapotranspiracion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-    element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button><br><br><button class="editar_ciclo btn-primary btn-block" data-id="'+element.id_rciclo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-detalle-ciclos">Editar</button></td></tr>')
-        }
-      }
-    
+
+      fetch('https://api.gec.org.mx/api/getCecos//')
+      .then(resp => resp.json())
+      .then( respObj => {
+       let i = 0;
+        respObj.forEach(respuesta => {
+        
+          if (respObj[i].CODIGO == element.rancho_revisado && respObj[i].MEDIO == "SUSTRATO") {
+            r = respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION;
+         
+          //  console.log(respObj[i].CODIGO, element.rancho_revisado)
+          return r
+          }
+          
+          i=i+1;
+        });
+        
+      }).then(resp => {
+//console.log("ubica variedad",element)
+if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')){
+  //console.log(i, resp[i].humedad)
+  $("#tbodyciclo-rep").append('<tr><th scope="row">'+j+'</th><td><b>'+
+  element.id_rciclo+'</td><td><b>'+
+  (element.fecha_formato)+'</td><td><b>'+
+  element.cultivo_revisado+'</td><td><b>'+
+  r+'</td><td><b>'+
+  element.n_ciclo+'</td><td><b>'+
+  element.tiempo_ciclo+'</td><td><b>'+
+  element.n_base+'</td><td><b>'+
+  element.status_producto+'</td><td><b>'+
+  element.presion_riego_valvula+'</td><td><b>'+
+  element.presion_riego_cintilla_manguera+'</td><td><b>'+
+  element.ph_gotero+'</td><td><b>'+
+  element.ce_gotero+'</td><td><b>'+
+  element.mililitros_captacion+'</td><td><b>'+
+  element.ph_dren+'</td><td><b>'+
+  element.ce_dren+'</td><td><b>'+
+  element.mililitros_dren+'</td><td><b>'+
+  element.porcentaje_humedad+'</td><td><b>'+
+  element.evapotranspiracion+'</td><td><b>'+
+  element.variedad+'</td><td><b>'+
+  element.comentario_general+'</td><td><b>'+
+  element.fecha_actualizacion+'</td><td><b>'+
+  element.usuario+'</td><td><button class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button><br><br><button class="editar_ciclo btn-primary btn-block" data-id="'+element.id_rciclo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-detalle-ciclos">Editar</button></td></tr>')
+  j = j+1;     
+}else{
+      if (sessionStorage.getItem('emailActivo') == element.usuario){
+         //console.log(i, resp[i].humedad)
+  $("#tbodyciclo-rep").append('<tr><th scope="row">'+j+'</th><td><b>'+
+  element.id_rciclo+'</td><td><b>'+
+  (element.fecha_formato)+'</td><td><b>'+
+  element.cultivo_revisado+'</td><td><b>'+
+  r+'</td><td><b>'+
+  element.n_ciclo+'</td><td><b>'+
+  element.tiempo_ciclo+'</td><td><b>'+
+  element.n_base+'</td><td><b>'+
+  element.status_producto+'</td><td><b>'+
+  element.presion_riego_valvula+'</td><td><b>'+
+  element.presion_riego_cintilla_manguera+'</td><td><b>'+
+  element.ph_gotero+'</td><td><b>'+
+  element.ce_gotero+'</td><td><b>'+
+  element.mililitros_captacion+'</td><td><b>'+
+  element.ph_dren+'</td><td><b>'+
+  element.ce_dren+'</td><td><b>'+
+  element.mililitros_dren+'</td><td><b>'+
+  element.porcentaje_humedad+'</td><td><b>'+
+  element.evapotranspiracion+'</td><td><b>'+
+  element.variedad+'</td><td><b>'+
+  element.comentario_general+'</td><td><b>'+
+  element.fecha_actualizacion+'</td><td><b>'+
+  element.usuario+'</td><td><button class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button><br><br><button class="editar_ciclo btn-primary btn-block" data-id="'+element.id_rciclo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-detalle-ciclos">Editar</button></td></tr>')
+  j = j+1;       
+}
+    }
+    })
+
+ 
+     
     });
 })
 }else{
@@ -99,16 +147,37 @@ if (tabla_ciclo == false) {
 .then(resp => {
     resp.forEach(element => {
 
-      if (sessionStorage.getItem('emailActivo') == element.usuario){
- //console.log(i, resp[i].humedad)
- $("#tbodyciclo-reg").append('<tr><td style="text-align:center;" class="table-active"><b id="strong-td">'+
- (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
- element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
- element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
- element.n_ciclo+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
- element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
- element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button><br><br><button class="editar_ciclo btn-primary btn-block" data-id="'+element.id_rciclo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-detalle-ciclos">Editar</button></td></tr>')
-      }
+      fetch('https://api.gec.org.mx/api/getCecos//')
+      .then(resp => resp.json())
+      .then( respObj => {
+       let i = 0;
+        respObj.forEach(respuesta => {
+        
+          if (respObj[i].CODIGO == element.rancho_revisado && respObj[i].MEDIO == "SUSTRATO") {
+            r = respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION;
+         
+          //  console.log(respObj[i].CODIGO, element.rancho_revisado)
+          return r
+          }
+          
+          i=i+1;
+        });
+        
+      }).then(resp => {
+        let i = 1;
+        if (sessionStorage.getItem('emailActivo') == element.usuario){
+          //console.log(i, resp[i].humedad)
+          $("#tbodyciclo-reg").append('<tr class="table-success"><th scope="row">'+i+'</th><td><b>'+
+          (element.fecha_formato).slice(0,10)+'</td><td><b>'+
+          element.cultivo_revisado+'</td><td><b>'+
+          r+'</td><td><b>'+
+          element.n_ciclo+'</td><td><b>'+
+          element.fecha_actualizacion+'</td><td><b>'+
+          element.usuario+'</td><td><button class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rciclo+'">Eliminar</button><br><br><button class="editar_ciclo btn-primary btn-block" data-id="'+element.id_rciclo+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-detalle-ciclos">Editar</button></td></tr>')
+               }
+      })
+      i = i+1;
+      
     
     });
 })
@@ -371,27 +440,33 @@ document.getElementById("canselar_cic_up").addEventListener('click', () => {
      
             let ayer_ciclo = ((new Date).toISOString()).slice(0,8)+fecha.slice(0,10)
 
-  console.log(iduser2)
-            fetch('https://apirest.gec.org.mx/api//riegos/getFormCiclos/'+iduser2+'', {
-                method: 'DELETE',
-            })
-            .then( resp => {
-                console.log(resp.status)
-                if(resp.status == 201){
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: resp.message,
-                        showConfirmButton: false,
-                        timer: 2000
-                      })
-                }
-                obtenerciclo();
-            })
-            .catch(error => {
-                console.log("error de peticion")
-                console.log(error)
-            })
+  
+
+ 
+                
+                
+                  fetch('https://apirest.gec.org.mx/api//riegos/getFormCiclos/'+iduser2+'', {
+                    method: 'DELETE',
+                })
+                .then( resp => {
+                    console.log(resp.status)
+                    if(resp.status == 201){
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: resp.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                          })
+                    }
+                    obtenerciclo();
+                })
+                .catch(error => {
+                    console.log("error de peticion")
+                    console.log(error)
+                })
+                
+           
             
         });
 
@@ -473,7 +548,7 @@ var codigo = "";
       document.getElementById("detalle_suelo").style.display = "none";
       document.getElementById("detalle_estacion").style.display = "none";
       document.getElementById("img-fondo").style.display = "none";
-      document.getElementById('title-ciclo').innerHTML = "REPORTES DE CICLOS POR FECHA"
+      document.getElementById('title-ciclo').innerHTML = "REPORTES DE CICLOS POR FECHA, CULTIVO Y RANCHO"
   
       document.getElementById("btn-ciclo").style.display = "none";
 

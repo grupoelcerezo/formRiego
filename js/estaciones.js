@@ -1,3 +1,24 @@
+$(document).ready(function(){
+  $("#txtfiltro_estacion_cr").on("keyup", function() {
+
+    
+    var value = $(this).val().toLowerCase();
+    $("#tbodyestaciones-rep tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#txtfiltro_estacion_rr").on("keyup", function() {
+
+    console.log("holaestacion_rr")
+    var value = $(this).val().toLowerCase();
+    $("#tbodyestaciones-rep tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
 let iduser3 = 0;
 let clave_estacion = 0;
 var editar = false;
@@ -23,7 +44,6 @@ if(dia_estacion != 0){
 
 
 function obtenerestacion(){
-
   let dia_efecto_estacion = ((new Date).toISOString()).slice(0,10)  
     document.getElementById("txtfechaestacion").value = dia_efecto_estacion
 
@@ -31,48 +51,74 @@ function obtenerestacion(){
     var fecha = document.getElementById("fecha_estacion").value;
     
  if (tabla_estacion == false) {
+  let i = 0;
+  let j = 1;
+  let r = "";
   fetch('https://apirest.gec.org.mx/api//riegos/getFormEstacionesfecha/'+fecha+'')
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
-      if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')) {
-        $("#tbodyestaciones-rep").append('<tr class="table-success"><td style="text-align:center;" class="table-succes"><b id="strong-td">'+
-        element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.n_estacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ph_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ce_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
-      }else{
-        if (sessionStorage.getItem('emailActivo') == element.usuario){
-          $("#tbodyestaciones-rep").append('<tr class="table-success"><td style="text-align:center;" class="table-succes"><b id="strong-td">'+
-          element.id_rhidro+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          (element.fecha_formato)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.n_estacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.mililitros_captacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.ph_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.ce_entrada+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.mililitros_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.ph_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.ce_dren+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.variedad+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.comentario_general+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-          element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
+
+      fetch('https://api.gec.org.mx/api/getCecos//')
+      .then(resp => resp.json())
+      .then( respObj => {
+       let i = 0;
+        respObj.forEach(respuesta => {
+        
+          if (respObj[i].CODIGO == element.rancho_revisado && respObj[i].MEDIO == "SUSTRATO") {
+            r = respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION;
+         
+            //console.log(respObj[i].CODIGO,element.rancho_revisado)
+          return r
+          
+          }
+          
+          i=i+1;
+        });
+        
+      }).then(resp => {
+        if (sessionStorage.getItem('rolEmail').includes('ADMINISTRADOR')) {
+          console.log(fecha)
+          $("#tbodyestaciones-rep").append('<tr class="table-success"><th scope="row">'+j+'</th><td><b>'+
+          element.id_rhidro+'</td><td><b>'+
+          (element.fecha_formato)+'</td><td><b>'+
+          element.cultivo_revisado+'</td><td><b>'+
+          r+'</td><td><b>'+
+          element.n_estacion+'</td><td><b>'+
+          element.mililitros_captacion+'</td><td><b>'+
+          element.ph_entrada+'</td><td><b>'+
+          element.ce_entrada+'</td><td>'+
+          element.mililitros_dren+'</td><td><b>'+
+          element.ph_dren+'</td><td><b>'+
+          element.ce_dren+'</td><td><b>'+
+          element.variedad+'</td><td><b>'+
+          element.comentario_general+'</td><td><b>'+
+          element.fecha_actualizacion+'</td><td><b>'+
+          element.usuario+'</td><td><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
+        j=j+1;
+        }else{
+          if (sessionStorage.getItem('emailActivo') == element.usuario){
+            $("#tbodyestaciones-rep").append('<tr class="table-success"><th scope="row">'+j+'</th><td><b>'+
+            element.id_rhidro+'</td><td><b>'+
+            (element.fecha_formato)+'</td><td><b>'+
+            element.cultivo_revisado+'</td><td><b>'+
+            r+'</td><td><b>'+
+            element.n_estacion+'</td><td><b>'+
+            element.mililitros_captacion+'</td><td><b>'+
+            element.ph_entrada+'</td><td><b>'+
+            element.ce_entrada+'</td><td><b>'+
+            element.mililitros_dren+'</td><td><b>'+
+            element.ph_dren+'</td><td><b>'+
+            element.ce_dren+'</td><td><b>'+
+            element.variedad+'</td><td><b>'+
+            element.comentario_general+'</td><td><b>'+
+            element.fecha_actualizacion+'</td><td><b>'+
+            element.usuario+'</td><td><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
+            j=j+1;
+          }
         }
-      }
-      
+      })
+      i = i+1; 
     });
 })
  }else{
@@ -80,15 +126,37 @@ function obtenerestacion(){
 .then(resp => resp.json())
 .then(resp => {
     resp.forEach(element => {
-     
-      if (sessionStorage.getItem('emailActivo') == element.usuario) {
-        $("#tbodyestaciones-reg").append('<tr class="table-success"><td style="text-align:center;" class="table-succes"><b id="strong-td">'+
-        (element.fecha_formato).slice(0,10)+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.cultivo_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.rancho_revisado+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.fecha_actualizacion+'</b></td><td style="text-align:center;" class="table-active"><b id="strong-td">'+
-        element.usuario+'</b></td><td style="text-align:center;" class="table-active"><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
-      }
+
+      fetch('https://api.gec.org.mx/api/getCecos//')
+      .then(resp => resp.json())
+      .then( respObj => {
+       let i = 0;
+        respObj.forEach(respuesta => {
+        
+          if (respObj[i].CODIGO == element.rancho_revisado && respObj[i].MEDIO == "SUSTRATO") {
+            r = respObj[i].CODIGO+"-"+respObj[i].DESCRIPCION;
+         
+            //console.log(respObj[i].CODIGO,element.rancho_revisado)
+          return r
+          
+          }
+          
+          i=i+1;
+        });
+        
+      }).then(resp => {
+        let i = 1;
+        if (sessionStorage.getItem('emailActivo') == element.usuario) {
+          $("#tbodyestaciones-reg").append('<tr class="table-success"><th scope="row">'+i+'</th><td><b>'+
+          (element.fecha_formato).slice(0,10)+'</td><td><b>'+
+          element.cultivo_revisado+'</td><td><b>'+
+          element.rancho_revisado+'</td><td><b>'+
+          element.fecha_actualizacion+'</td><td><b>'+
+          element.usuario+'</td><td><button  class="eliminar btn-danger btn-block" data-fecha="'+element.fecha+'" data-id="'+element.id_rhidro+'">Eliminar</button><br><button class="editar_estacion btn-primary btn-block" data-id="'+element.id_rhidro+'" data-cultivo="'+element.cultivo_revisado+'" data-codigo="'+element.rancho_revisado+'" data-toggle="modal" data-target="#Modal-estaciones">Editar</button></td></tr>')
+        }
+      })
+     i = i+1;
+      
       
     });
 })
@@ -300,7 +368,9 @@ $(document).on('click', '.eliminar', function () {
  console.log(iduser3)
     document.getElementById("fecha_estacion").value = fecha.slice(0,10);
 
-    fetch('https://apirest.gec.org.mx/api/riegos/getFormEstaciones/'+iduser3+'', {
+    
+               
+                  fetch('https://apirest.gec.org.mx/api/riegos/getFormEstaciones/'+iduser3+'', {
         method: 'DELETE',
     })
     .then( resp => {
@@ -320,7 +390,9 @@ $(document).on('click', '.eliminar', function () {
         console.log("error de peticion")
         console.log(error)
     })
-    
+     
+                
+   
 });
 
 
@@ -430,7 +502,7 @@ function editarEstacionVariedad(cod) {
       document.getElementById("detalle_suelo").style.display = "none"
       document.getElementById("detalle_ciclo").style.display = "none";
       document.getElementById("img-fondo").style.display = "none";
-      document.getElementById('title-estacion').innerHTML = "REPORTES DE ESTACIONES POR FECHA"
+      document.getElementById('title-estacion').innerHTML = "REPORTES DE ESTACIONES POR FECHA, CULTIVO Y RANCHO"
     
       document.getElementById("btn-estacion").style.display = "none";
   
